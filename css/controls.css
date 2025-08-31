@@ -1,0 +1,34 @@
+/* === Control Button Styles === */
+.controls {
+    display: flex;
+    flex-direction: row;
+    gap: 10px; /* Match grid gap */
+    width: 200px; /* 3 * 60px + 2 * 10px = 200px */
+    justify-content: center;
+}
+
+.control-btn {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 6px;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.control-btn:hover {
+    background-color: var(--grid-bg);
+    transform: scale(1.1);
+}
+
+.control-btn img {
+    width: 32px;
+    height: 32px;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}

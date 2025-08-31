@@ -1,0 +1,194 @@
+/* === Base Styles === */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-title {
+    margin: 0 0 10px 0;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.words-summary {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.current-word {
+    font-size: 1.5rem;
+    font-weight: 600;
+    min-height: 2rem;
+    margin: 20px 0 10px 0;
+    letter-spacing: 2px;
+}
+
+.message {
+    min-height: 1.5rem;
+    font-weight: bold;
+    color: var(--message-color);
+    margin-bottom: 15px;
+}
+
+.mode-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+.mode-selector input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.found-words-container {
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: left;
+}
+
+.word-group {
+    margin-bottom: 20px;
+}
+
+.word-group h3 {
+    margin: 12px 0 6px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.words-list {
+    margin: 0 0 8px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.word-link {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-right: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.word-link:hover {
+    background-color: var(--grid-bg);
+    text-decoration: underline;
+}
+
+.remaining-count {
+    font-style: italic;
+    color: var(--found-words-color);
+    margin: 4px 0;
+}
+
+.date-navigation {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--grid-border);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background-color: var(--grid-bg);
+    transform: translateY(-2px);
+}
+
+.nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.date-input {
+    padding: 8px 12px;
+    border: 2px solid var(--grid-border);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* === Animations === */
+@keyframes celebration {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.celebrating {
+    animation: celebration 0.5s ease-in-out;
+}
+
+/* === Focus Styles === */
+.control-btn:focus-visible,
+.nav-btn:focus-visible,
+.date-input:focus-visible {
+    outline: 2px solid var(--center-bg);
+    outline-offset: 2px;
+}
+
+/* === Responsive Design === */
+@media (max-width: 768px) {
+    .game-container {
+        gap: 15px;
+    }
+
+    .controls {
+        width: 170px; /* Match mobile grid width: 3 * 50px + 2 * 10px */
+    }
+
+    .date-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .letters-grid {
+        grid-template-columns: repeat(3, 50px);
+        grid-template-rows: repeat(3, 50px);
+    }
+
+    .letter-cell {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+}

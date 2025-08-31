@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dagens ord</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/grid.css">
+    <link rel="stylesheet" href="css/controls.css">
+</head>
+<body data-theme="light">
+    <h1 class="page-title">Dagens ord</h1>
+    
+    <div class="words-summary" id="wordsFoundSummary">0 / 0 ord</div>
+    
+    <div class="message" id="message"></div>
+    
+    <div class="game-container">
+        <div class="letters-grid" id="grid"></div>
+        
+        <div class="controls">
+            <button class="control-btn" id="submitWord" title="Skicka ord (Enter)" aria-label="Skicka ord">
+                <img id="submitIcon" src="img/submit_light.png" alt="Skicka">
+            </button>
+            <button class="control-btn" id="clearWord" title="Rensa ord (Backspace)" aria-label="Rensa ord">
+                <img id="resetIcon" src="img/reset_light.png" alt="Rensa">
+            </button>
+            <button class="control-btn" id="shuffleLetters" title="Blanda bokstäver (Mellanslag)" aria-label="Blanda bokstäver">
+                <img id="shuffleIcon" src="img/shuffle_light.png" alt="Blanda">
+            </button>
+            <button class="control-btn" id="toggleThemeBtn" title="Växla tema" aria-label="Växla tema">
+                <img id="themeIcon" src="img/light.png" alt="Tema">
+            </button>
+        </div>
+    </div>
+    
+    <div class="current-word" id="currentWord"></div>
+    
+    <div class="mode-selector">
+        <label for="nineLetterMode">
+            <input type="checkbox" id="nineLetterMode">
+            Endast 9-bokstäversord
+        </label>
+    </div>
+    
+    <div class="found-words-container" id="foundWords"></div>
+    
+    <div class="date-navigation">
+        <button class="nav-btn" id="prevDayBtn">← Föregående dag</button>
+        <input type="date" class="date-input" id="selectDate" max="">
+        <button class="nav-btn" id="nextDayBtn">Nästa dag →</button>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/utils/DateUtils.js"></script>
+    <script src="js/game/GameState.js"></script>
+    <script src="js/game/GridGenerator.js"></script>
+    <script src="js/game/WordValidator.js"></script>
+    <script src="js/managers/DictionaryManager.js"></script>
+    <script src="js/managers/ThemeManager.js"></script>
+    <script src="js/managers/UIManager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
