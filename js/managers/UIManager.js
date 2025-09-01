@@ -81,6 +81,9 @@ class UIManager {
             this.gameState.letters[index] = shuffled[i];
         });
 
+        // Save the shuffled arrangement
+        this.gameState.saveShuffledGrid();
+
         this.clearCurrentWord();
         this.drawGrid();
     }

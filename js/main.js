@@ -42,7 +42,26 @@ class WordGameController {
     }
 
     setupGame() {
-        this.gameState.letters = GridGenerator.generateLetters(this.dictionary, this.gameState.currentDate);
+                // Generate the base letters deterministically from date
+        const baseLetters = GridGenerator.generateLetters(this.dictionary, this.gameState.currentDate);
+        
+        // Check if we have a saved shuffled arrangement for this date
+        const shuffledLetters = this.gameState.loadShuffledGrid();
+       if (shuffledLetters) {
+            // Verify the shuffled letters match the base letters (same set, different order)
+            const baseSorted = baseLetters.slice().sort().join('');
+            const shuffledSorted = shuffledLetters.slice().sort().join('');
+            
+            if (baseSorted === shuffledSorted) {
+                this.gameState.letters = shuffledLetters;
+            } else {
+                // Shuffled data is invalid, use base letters and clear the saved shuffle
+                this.gameState.letters = baseLetters;
+                this.gameState.clearShuffledGrid();
+            }
+        } else {
+            this.gameState.letters = baseLetters;
+        }
         this.gameState.middleLetter = this.gameState.letters[this.gameState.middleIndex];
         
         this.ui.drawGrid();
@@ -90,6 +109,8 @@ class WordGameController {
         }
 
         this.gameState.setDate(newDate);
+        // Clear any shuffled state when changing dates, since each date should start fresh
+        this.gameState.clearShuffledGrid();
         this.setupGame();
     }
 

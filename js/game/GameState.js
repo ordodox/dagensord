@@ -64,6 +64,45 @@ class GameState {
         return `foundWords-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
 
+    getShuffleStorageKey() {
+        const date = this.currentDate;
+        return `shuffledGrid-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    }
+
+    saveShuffledGrid() {
+        const key = this.getShuffleStorageKey();
+        try {
+            localStorage.setItem(key, JSON.stringify(this.letters));
+        } catch (error) {
+            console.error("Failed to save shuffled grid:", error);
+        }
+    }
+
+    loadShuffledGrid() {
+        const key = this.getShuffleStorageKey();
+        try {
+            const stored = localStorage.getItem(key);
+            if (stored) {
+                const shuffledLetters = JSON.parse(stored);
+                if (Array.isArray(shuffledLetters) && shuffledLetters.length === 9) {
+                    return shuffledLetters;
+                }
+            }
+        } catch (error) {
+            console.error("Failed to load shuffled grid:", error);
+        }
+        return null;
+    }
+
+    clearShuffledGrid() {
+        const key = this.getShuffleStorageKey();
+        try {
+            localStorage.removeItem(key);
+        } catch (error) {
+            console.error("Failed to clear shuffled grid:", error);
+        }
+    }
+
     setDate(newDate) {
         this.currentDate = DateUtils.normalizeDate(newDate);
         this.foundWords.clear();
