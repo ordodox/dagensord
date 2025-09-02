@@ -117,16 +117,10 @@ body {
     text-align: center;
 }
 
-/* Only add hover effects if the device can actually hover */
-@media (hover: hover) {
-    .toggle-switch:hover {
-        opacity: 0.8;
-    }
-}
-
-/* Active effect for press feedback on all devices */
+/* NO hover effects at all - only active for press feedback */
 .toggle-switch:active {
-    opacity: 0.6;
+    opacity: 0.8;
+    transition: opacity 0.1s ease;
 }
 
 /* Focus style for accessibility */
@@ -290,10 +284,15 @@ body {
     }
 }
 
-/* Desktop: horizontal layout for toggle */
+/* Desktop: horizontal layout for toggle and ADD BACK hover only for desktop */
 @media (min-width: 769px) {
     .toggle-label {
         flex-direction: row;
         gap: 10px;
+    }
+    
+    /* Only add hover on desktop screens */
+    .toggle-switch:hover {
+        opacity: 0.8;
     }
 }
