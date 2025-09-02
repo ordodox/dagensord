@@ -117,11 +117,12 @@ body {
     text-align: center;
 }
 
-/* Hover effect for all devices, active effect for touch feedback */
-.toggle-switch:hover {
+/* Hover effect only for non-touch devices */
+.no-touch .toggle-switch:hover {
     opacity: 0.8;
 }
 
+/* Active effect for all devices */
 .toggle-switch:active {
     opacity: 0.6;
 }
@@ -284,15 +285,6 @@ body {
 
     .found-words-container {
         max-width: 170px; /* Match mobile grid width */
-    }
-
-    /* Remove hover effects on mobile and use only active */
-    .toggle-switch:hover {
-        opacity: 1;
-    }
-    
-    .toggle-switch:active {
-        opacity: 0.8;
     }
 }
 
