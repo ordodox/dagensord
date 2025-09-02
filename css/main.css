@@ -117,9 +117,18 @@ body {
     text-align: center;
 }
 
-/* Hover effect */
-.toggle-switch:hover {
-    opacity: 0.8;
+/* Hover effect for desktop devices */
+@media (hover: hover) and (pointer: fine) {
+    .toggle-switch:hover {
+        opacity: 0.8;
+    }
+}
+
+/* Active effect for touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .toggle-switch:active {
+        opacity: 0.8;
+    }
 }
 
 /* Focus style for accessibility */
