@@ -117,18 +117,13 @@ body {
     text-align: center;
 }
 
-/* Hover effect for desktop devices */
-@media (hover: hover) and (pointer: fine) {
-    .toggle-switch:hover {
-        opacity: 0.8;
-    }
+/* Hover effect for all devices, active effect for touch feedback */
+.toggle-switch:hover {
+    opacity: 0.8;
 }
 
-/* Active effect for touch devices */
-@media (hover: none) and (pointer: coarse) {
-    .toggle-switch:active {
-        opacity: 0.8;
-    }
+.toggle-switch:active {
+    opacity: 0.6;
 }
 
 /* Focus style for accessibility */
@@ -289,6 +284,15 @@ body {
 
     .found-words-container {
         max-width: 170px; /* Match mobile grid width */
+    }
+
+    /* Remove hover effects on mobile and use only active */
+    .toggle-switch:hover {
+        opacity: 1;
+    }
+    
+    .toggle-switch:active {
+        opacity: 0.8;
     }
 }
 
