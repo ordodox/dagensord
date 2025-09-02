@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     gap: 10px; /* Match grid gap */
-    width: 200px; /* 3 * 60px + 2 * 10px = 200px */
+    width: 150px; /* 3 * 44px + 2 * 10px = 152px, rounded to 150px */
     justify-content: center;
 }
 
@@ -31,4 +31,58 @@
     display: block;
     user-select: none;
     pointer-events: none;
+}
+
+/* Floating theme button */
+.floating-theme-btn {
+    position: fixed;
+    top: 20px;
+    right: calc(50% - 200px); /* Position relative to center, offset by content width */
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    padding: 4px;
+}
+
+.floating-theme-btn:hover {
+    transform: scale(1.1);
+    background-color: var(--grid-bg);
+}
+
+.floating-theme-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+
+.floating-theme-btn:focus-visible {
+    outline: 2px solid var(--center-bg);
+    outline-offset: 2px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .floating-theme-btn {
+        top: 15px;
+        right: 15px; /* Keep mobile positioning at screen edge */
+        width: 28px;
+        height: 28px;
+        padding: 2px;
+    }
+
+    .floating-theme-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .controls {
+        width: 130px;
+    }
 }
