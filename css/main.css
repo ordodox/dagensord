@@ -84,7 +84,7 @@ body {
     height: 22px;
     background-color: var(--grid-border);
     border-radius: 22px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, opacity 0.15s ease;
     border: 2px solid var(--grid-border);
     flex-shrink: 0; /* Prevent the toggle from shrinking */
 }
@@ -117,12 +117,7 @@ body {
     text-align: center;
 }
 
-/* Hover effect only for non-touch devices */
-.no-touch .toggle-switch:hover {
-    opacity: 0.8;
-}
-
-/* Active effect for all devices */
+/* Active effect for immediate press feedback */
 .toggle-switch:active {
     opacity: 0.6;
 }
@@ -288,10 +283,14 @@ body {
     }
 }
 
-/* Desktop: horizontal layout for toggle */
+/* Desktop hover effect - only applies above mobile breakpoint */
 @media (min-width: 769px) {
     .toggle-label {
         flex-direction: row;
         gap: 10px;
+    }
+    
+    .toggle-switch:hover {
+        opacity: 0.8;
     }
 }
