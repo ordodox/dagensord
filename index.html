@@ -24,6 +24,11 @@
         <img id="themeIcon" src="img/light.png" alt="Tema">
     </button>
     
+    <!-- Floating achievements button (under theme button) -->
+    <button class="floating-theme-btn achievements-btn" id="achievements-btn" title="Prestationer" aria-label="Prestationer">
+        🏆
+    </button>
+    
     <div class="game-container">
         <div class="letters-grid" id="grid"></div>
         
@@ -37,8 +42,6 @@
             <button class="control-btn" id="shuffleLetters" title="Blanda bokstäver (Mellanslag)" aria-label="Blanda bokstäver">
                 <img id="shuffleIcon" src="img/shuffle_light.png" alt="Blanda">
             </button>
-            <button class="control-btn" id="achievements-btn">🏆 Prestationer</button>
-
         </div>
     </div>
     
@@ -59,28 +62,28 @@
         <button class="nav-btn" id="nextDayBtn">Nästa dag →</button>
     </div>
 
-
     <!-- Achievement modal -->
-<div id="achievement-modal" class="achievement-modal hidden">
-    <div class="achievement-modal-content">
-        <span class="achievement-close">&times;</span>
-        <h2>🏆 Prestationer</h2>
-        <div id="achievements-list" class="achievements-list">
-            <!-- Achievements will be populated here -->
+    <div id="achievement-modal" class="achievement-modal hidden">
+        <div class="achievement-modal-content">
+            <span class="achievement-close">&times;</span>
+            <h2>🏆 Prestationer</h2>
+            <div id="achievements-list" class="achievements-list">
+                <!-- Achievements will be populated here -->
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Achievement notification -->
-<div id="achievement-notification" class="achievement-notification hidden">
-    <div class="achievement-notification-content">
-        <div class="achievement-icon"></div>
-        <div class="achievement-text">
-            <div class="achievement-title"></div>
-            <div class="achievement-description"></div>
+    <!-- Achievement notification -->
+    <div id="achievement-notification" class="achievement-notification hidden">
+        <div class="achievement-notification-content">
+            <div class="achievement-icon"></div>
+            <div class="achievement-text">
+                <div class="achievement-title"></div>
+                <div class="achievement-description"></div>
+            </div>
         </div>
     </div>
-</div>
+
     <!-- JavaScript Files -->
     <script src="js/utils/DateUtils.js"></script>
     <script src="js/managers/AchievementManager.js"></script>

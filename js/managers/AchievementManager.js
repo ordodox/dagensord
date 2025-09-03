@@ -42,16 +42,17 @@ class AchievementManager {
   getGlobalAchievements() {
     const totalNineLetterWords = this.getTotalNineLetterWords();
     const totalAllWordsCompleted = this.getTotalAllWordsCompleted();
+    const currentStreak = this.getCurrentStreak();
     
     return [
       // Seven day streak achievement (global one-time)
       {
         id: 'seven_day_streak',
         name: 'Veckorekord',
-        description: 'Spela 7 dagar i rad',
+        description: `Spela 7 dagar i rad (${currentStreak}/7)`,
         icon: '🔥',
         unlocked: false,
-        target: 1
+        target: 7
       },
       
       // Nine-letter word achievements
@@ -191,31 +192,35 @@ class AchievementManager {
     return dates.sort();
   }
 
-  // Check for 7 consecutive real days played
-  checkSevenDayStreak() {
+  // Get current streak counting backwards from today
+  getCurrentStreak() {
     const playedDates = this.getActualPlayDates();
-    if (playedDates.length < 7) return false;
+    if (playedDates.length === 0) return 0;
     
-    // Check for any 7 consecutive calendar days
-    for (let i = 0; i <= playedDates.length - 7; i++) {
-      let consecutive = true;
-      const startDate = new Date(playedDates[i]);
+    const today = new Date().toISOString().split('T')[0];
+    let currentDate = new Date(today);
+    let streak = 0;
+    
+    // Count backwards from today
+    while (true) {
+      const dateStr = currentDate.toISOString().split('T')[0];
       
-      for (let j = 1; j < 7; j++) {
-        const expectedDate = new Date(startDate);
-        expectedDate.setDate(startDate.getDate() + j);
-        const expectedDateStr = expectedDate.toISOString().split('T')[0];
-        
-        if (!playedDates.includes(expectedDateStr)) {
-          consecutive = false;
-          break;
-        }
+      if (playedDates.includes(dateStr)) {
+        streak++;
+        // Go back one day
+        currentDate.setDate(currentDate.getDate() - 1);
+      } else {
+        // Streak broken
+        break;
       }
-      
-      if (consecutive) return true;
     }
     
-    return false;
+    return streak;
+  }
+
+  // Check for 7 consecutive real days played
+  checkSevenDayStreak() {
+    return this.getCurrentStreak() >= 7;
   }
 
   getTotalNineLetterWords() {
