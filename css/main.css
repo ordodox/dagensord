@@ -53,6 +53,9 @@ body {
     font-weight: bold;
     color: var(--message-color);
     margin-bottom: 15px;
+    display: block;
+    line-height: 1.5rem;
+    transition: opacity 0.2s ease; /* Smooth fade */
 }
 
 .mode-selector {

@@ -61,16 +61,26 @@ class UIManager {
     this.showMessage("");
   }
 
+  
   showMessage(text, isSuccess = false) {
+  if (text) {
     this.elements.message.textContent = text;
-
-    if (isSuccess) {
-      this.elements.message.classList.add("celebrating");
-      setTimeout(
-          () => { this.elements.message.classList.remove("celebrating"); },
-          500);
-    }
+    this.elements.message.style.visibility = 'visible';
+    this.elements.message.style.opacity = '1';
+  } else {
+    this.elements.message.style.visibility = 'hidden';
+    this.elements.message.style.opacity = '0';
+    // Don't clear the text, just hide it
   }
+
+  if (isSuccess) {
+    this.elements.message.classList.add("celebrating");
+    setTimeout(() => {
+      this.elements.message.classList.remove("celebrating");
+    }, 500);
+  }
+}
+
 
   shuffleLetters() {
     const outerIndices = [ 0, 1, 2, 3, 5, 6, 7, 8 ];
