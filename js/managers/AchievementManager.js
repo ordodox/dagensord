@@ -372,12 +372,13 @@ class AchievementManager {
       newlyUnlocked.push(achievement);
     }
 
-    const possibleWordsCount = this.gameState.possibleWords.length;
+    // For "all words" achievement, use the complete unfiltered possible words count
+    const totalPossibleWordsCount = this.gameState.allPossibleWords.length;
     const foundWordsCount = this.gameState.foundWords.size;
     
     let allWordsJustCompleted = false;
-    if (foundWordsCount === possibleWordsCount && 
-        possibleWordsCount > 0 && 
+    if (foundWordsCount === totalPossibleWordsCount && 
+        totalPossibleWordsCount > 0 && 
         !this.isUnlocked('all_words')) {
       this.unlock('all_words');
       const achievement = this.achievements.find(a => a.id === 'all_words');

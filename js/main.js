@@ -31,9 +31,17 @@ class WordGameController {
 
     const modal = document.getElementById('achievement-modal');
     const closeBtn = document.querySelector('.achievement-close');
+    const refreshBtn = document.getElementById('achievement-refresh-btn');
     
     if (closeBtn) {
       closeBtn.addEventListener('click', () => this.hideAchievements());
+    }
+    
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        this.achievementManager.runMigration();
+        this.showAchievements(); // Refresh the modal display
+      });
     }
     
     if (modal) {
@@ -148,7 +156,16 @@ class WordGameController {
 
     this.ui.drawGrid();
     this.gameState.loadFoundWords();
-    this.gameState.possibleWords = this.validator.getPossibleWords();
+    
+    // NEW: Set the complete unfiltered list first
+    this.gameState.allPossibleWords = this.validator.getPossibleWords();
+    
+    // NEW: Then set the filtered list based on current mode
+    const nineLetterMode = document.getElementById("nineLetterMode")?.checked || false;
+    this.gameState.possibleWords = nineLetterMode ? 
+      this.gameState.allPossibleWords.filter(word => word.length === 9) : 
+      this.gameState.allPossibleWords;
+    
     this.ui.renderFoundWords();
     this.ui.updateDateInput();
     this.ui.updateNavigationButtons();
@@ -199,7 +216,7 @@ class WordGameController {
 
     this.gameState.setDate(newDate);
     this.gameState.clearShuffledGrid();
-      this.achievementManager.refreshForCurrentDate(); // ADD THIS LINE
+    this.achievementManager.refreshForCurrentDate();
 
     this.setupGame();
   }
@@ -300,7 +317,12 @@ class WordGameController {
   bindModeToggle() {
     document.getElementById("nineLetterMode")
         ?.addEventListener("change", () => {
-          this.gameState.possibleWords = this.validator.getPossibleWords();
+          // NEW: Update filtered list based on current mode, but keep allPossibleWords unchanged
+          const nineLetterMode = document.getElementById("nineLetterMode")?.checked || false;
+          this.gameState.possibleWords = nineLetterMode ? 
+            this.gameState.allPossibleWords.filter(word => word.length === 9) : 
+            this.gameState.allPossibleWords;
+          
           this.ui.renderFoundWords();
         });
   }

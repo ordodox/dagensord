@@ -4,7 +4,8 @@ class GameState {
     this.selectedIndices = new Set();
     this.foundWords = new Set();
     this.dictionary = new Set();
-    this.possibleWords = [];
+    this.possibleWords = []; // This can be filtered based on 9-letter mode
+    this.allPossibleWords = []; // This always contains ALL possible words
     this.letters = [];
     this.middleLetter = "";
     this.middleIndex = 4;
