@@ -6,6 +6,7 @@ class WordGameController {
     this.validator = new WordValidator(this.gameState, this.dictionary);
     this.ui = new UIManager(this.gameState, this.validator);
     this.themeManager = new ThemeManager();
+    this.achievementManager = new AchievementManager(this.gameState);
   }
 
   async init() {
@@ -19,6 +20,89 @@ class WordGameController {
     this.setupInitialDate();
     this.setupGame();
     this.bindEvents();
+    this.setupAchievementUI();
+  }
+
+  setupAchievementUI() {
+    const achievementsBtn = document.getElementById('achievements-btn');
+    if (achievementsBtn) {
+      achievementsBtn.addEventListener('click', () => this.showAchievements());
+    }
+
+    const modal = document.getElementById('achievement-modal');
+    const closeBtn = document.querySelector('.achievement-close');
+    
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => this.hideAchievements());
+    }
+    
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) this.hideAchievements();
+      });
+    }
+  }
+
+  showAchievements() {
+    const modal = document.getElementById('achievement-modal');
+    const list = document.getElementById('achievements-list');
+    
+    if (!modal || !list) return;
+    
+    const achievements = this.achievementManager.getAllAchievements();
+    const unlockedAchievements = this.achievementManager.getUnlockedAchievements();
+    
+    list.innerHTML = achievements.map(achievement => {
+      const unlocked = unlockedAchievements.find(u => u.id === achievement.id);
+      const unlockedClass = achievement.unlocked ? 'unlocked' : 'locked';
+      
+      let dateText = '';
+      if (unlocked) {
+        const date = new Date(unlocked.unlockedAt);
+        dateText = `<div class="achievement-item-date">Upplåst: ${date.toLocaleDateString('sv-SE')}</div>`;
+      }
+      
+      return `
+        <div class="achievement-item ${unlockedClass}">
+          <div class="achievement-item-icon">${achievement.icon}</div>
+          <div class="achievement-item-text">
+            <div class="achievement-item-title">${achievement.name}</div>
+            <div class="achievement-item-description">${achievement.description}</div>
+            ${dateText}
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    modal.classList.remove('hidden');
+  }
+
+  hideAchievements() {
+    const modal = document.getElementById('achievement-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  showAchievementNotification(achievement) {
+    const notification = document.getElementById('achievement-notification');
+    if (!notification) return;
+    
+    const icon = notification.querySelector('.achievement-icon');
+    const title = notification.querySelector('.achievement-title');
+    const description = notification.querySelector('.achievement-description');
+    
+    if (icon) icon.textContent = achievement.icon;
+    if (title) title.textContent = achievement.name;
+    if (description) description.textContent = achievement.description;
+    
+    notification.classList.remove('hidden');
+    setTimeout(() => notification.classList.add('show'), 100);
+    
+    setTimeout(() => {
+      notification.classList.remove('show');
+      setTimeout(() => notification.classList.add('hidden'), 300);
+    }, 4000);
   }
 
   setupInitialDate() {
@@ -42,23 +126,17 @@ class WordGameController {
   }
 
   setupGame() {
-    // Generate the base letters deterministically from date
     const baseLetters = GridGenerator.generateLetters(
         this.dictionary, this.gameState.currentDate);
 
-    // Check if we have a saved shuffled arrangement for this date
     const shuffledLetters = this.gameState.loadShuffledGrid();
     if (shuffledLetters) {
-      // Verify the shuffled letters match the base letters (same set, different
-      // order)
       const baseSorted = baseLetters.slice().sort().join('');
       const shuffledSorted = shuffledLetters.slice().sort().join('');
 
       if (baseSorted === shuffledSorted) {
         this.gameState.letters = shuffledLetters;
       } else {
-        // Shuffled data is invalid, use base letters and clear the saved
-        // shuffle
         this.gameState.letters = baseLetters;
         this.gameState.clearShuffledGrid();
       }
@@ -87,8 +165,15 @@ class WordGameController {
     }
 
     this.gameState.addFoundWord(this.gameState.currentWord);
+    
+    const newAchievements = this.achievementManager.checkAchievements(this.gameState.currentWord);
+    
     this.ui.renderFoundWords();
     this.ui.showMessage(`${this.gameState.currentWord} hittat! 🎉`, true);
+
+    newAchievements.forEach((achievement, index) => {
+      setTimeout(() => this.showAchievementNotification(achievement), (index + 1) * 1000);
+    });
 
     setTimeout(() => {
       this.ui.showMessage("");
@@ -113,9 +198,9 @@ class WordGameController {
     }
 
     this.gameState.setDate(newDate);
-    // Clear any shuffled state when changing dates, since each date should
-    // start fresh
     this.gameState.clearShuffledGrid();
+      this.achievementManager.refreshForCurrentDate(); // ADD THIS LINE
+
     this.setupGame();
   }
 
@@ -131,7 +216,8 @@ class WordGameController {
       submitWord : () => this.submitWord(),
       clearWord : () => this.ui.clearCurrentWord(),
       shuffleLetters : () => this.ui.shuffleLetters(),
-      toggleThemeBtn : () => this.themeManager.toggle()
+      toggleThemeBtn : () => this.themeManager.toggle(),
+      'achievements-btn' : () => this.showAchievements()
     };
 
     Object.entries(buttons).forEach(([ id, handler ]) => {
@@ -158,7 +244,6 @@ class WordGameController {
 
   bindKeyboardEvents() {
     document.addEventListener("keydown", (event) => {
-      // Ignore if typing in input fields
       if (event.target.tagName === "INPUT" ||
           event.target.tagName === "TEXTAREA") {
         return;
@@ -189,7 +274,6 @@ class WordGameController {
   }
 
   handleLetterKeyPress(event) {
-    // Only handle letter keys without modifiers
     if (event.ctrlKey || event.metaKey || event.altKey)
       return;
 
@@ -197,7 +281,6 @@ class WordGameController {
     if (!/^[A-ZÅÄÖ]$/.test(pressed))
       return;
 
-    // Find first available letter in grid
     for (let i = 0; i < this.gameState.letters.length; i++) {
       if (this.gameState.letters[i] === pressed &&
           !this.gameState.selectedIndices.has(i)) {
