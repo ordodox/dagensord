@@ -10,18 +10,25 @@ class WordGameController {
   }
 
   async init() {
-    const dictionaryLoaded = await this.dictionary.load();
-    if (!dictionaryLoaded) {
-      this.ui.showMessage("Kunde inte ladda ordlistan.");
-      return;
-    }
-
-    this.gameState.dictionary = this.dictionary.dictionary;
-    this.setupInitialDate();
-    this.setupGame();
-    this.bindEvents();
-    this.setupAchievementUI();
+  const dictionaryLoaded = await this.dictionary.load();
+  if (!dictionaryLoaded) {
+    this.ui.showMessage("Kunde inte ladda ordlistan.");
+    return;
   }
+
+  this.gameState.dictionary = this.dictionary.dictionary;
+  
+  // Initialize achievement manager
+  const achievementsLoaded = await this.achievementManager.init();
+  if (!achievementsLoaded) {
+    console.warn("Could not load achievements");
+  }
+  
+  this.setupInitialDate();
+  this.setupGame();
+  this.bindEvents();
+  this.setupAchievementUI();
+}
 
   setupAchievementUI() {
     const achievementsBtn = document.getElementById('achievements-btn');

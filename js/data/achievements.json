@@ -1,0 +1,101 @@
+{
+  "dateAchievements": [
+    {
+      "id": "nine_letter_word",
+      "nameTemplate": "Hittade ett 9-bokstavers ord ({date})",
+      "description": "Hitta ett ord som använder alla 9 bokstäver",
+      "icon": "🌟"
+    },
+    {
+      "id": "all_words",
+      "nameTemplate": "Hittade alla möjliga ord ({date})",
+      "description": "Hitta alla ord som går att bilda",
+      "icon": "🏆"
+    }
+  ],
+  "globalAchievements": [
+    {
+      "id": "seven_day_streak",
+      "name": "Veckorekord",
+      "descriptionTemplate": "Spela 7 dagar i rad ({current}/7)",
+      "icon": "🔥",
+      "target": 7,
+      "type": "streak"
+    },
+    {
+      "id": "nine_letter_10",
+      "name": "Nio-bokstavers samlare",
+      "descriptionTemplate": "Hitta 10 nio-bokstavers ord totalt ({current}/10)",
+      "icon": "📚",
+      "target": 10,
+      "type": "nine_letter"
+    },
+    {
+      "id": "nine_letter_25",
+      "name": "Nio-bokstavers expert",
+      "descriptionTemplate": "Hitta 25 nio-bokstavers ord totalt ({current}/25)",
+      "icon": "🎓",
+      "target": 25,
+      "type": "nine_letter"
+    },
+    {
+      "id": "nine_letter_50",
+      "name": "Nio-bokstavers mästare",
+      "descriptionTemplate": "Hitta 50 nio-bokstavers ord totalt ({current}/50)",
+      "icon": "👑",
+      "target": 50,
+      "type": "nine_letter"
+    },
+    {
+      "id": "nine_letter_100",
+      "name": "Nio-bokstavers legend",
+      "descriptionTemplate": "Hitta 100 nio-bokstavers ord totalt ({current}/100)",
+      "icon": "🌟",
+      "target": 100,
+      "type": "nine_letter"
+    },
+    {
+      "id": "all_words_10",
+      "name": "Fullständighetssöker",
+      "descriptionTemplate": "Hitta alla ord 10 gånger totalt ({current}/10)",
+      "icon": "🔍",
+      "target": 10,
+      "type": "all_words"
+    },
+    {
+      "id": "all_words_25",
+      "name": "Perfektionist",
+      "descriptionTemplate": "Hitta alla ord 25 gånger totalt ({current}/25)",
+      "icon": "✨",
+      "target": 25,
+      "type": "all_words"
+    },
+    {
+      "id": "all_words_50",
+      "name": "Ordmästare",
+      "descriptionTemplate": "Hitta alla ord 50 gånger totalt ({current}/50)",
+      "icon": "🏅",
+      "target": 50,
+      "type": "all_words"
+    },
+    {
+      "id": "all_words_100",
+      "name": "Ultimat ordkung",
+      "descriptionTemplate": "Hitta alla ord 100 gånger totalt ({current}/100)",
+      "icon": "👑",
+      "target": 100,
+      "type": "all_words"
+    },
+    {
+      "id": "night_owl",
+      "name": "Nattuggla",
+      "description": "Spela mellan 00:00 och 04:00",
+      "icon": "🦉",
+      "target": 1,
+      "type": "special"
+    }
+  ],
+  "dateFormats": {
+    "months": ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"]
+  }
+}
