@@ -65,8 +65,11 @@
     <!-- Achievement modal -->
     <div id="achievement-modal" class="achievement-modal hidden">
         <div class="achievement-modal-content">
-            <span class="achievement-close">&times;</span>
-            <h2>🏆 Prestationer</h2>
+            <div class="achievement-modal-header">
+                <span class="achievement-close">&times;</span>
+                <h2>🏆 Prestationer</h2>
+                <button class="achievement-refresh-btn" id="achievement-refresh-btn" title="Uppdatera prestationer">🔄</button>
+            </div>
             <div id="achievements-list" class="achievements-list">
                 <!-- Achievements will be populated here -->
             </div>
