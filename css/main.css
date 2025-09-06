@@ -64,7 +64,7 @@ body {
     justify-content: center;
     font-size: 1rem;
     margin: 10px 0;
-    max-width: 320px; /* Match desktop grid width */
+    max-width: 400px; /* Match new content width */
     width: 100%;
 }
 
@@ -133,10 +133,11 @@ body {
 }
 
 .found-words-container {
-    max-width: 320px; /* Match desktop grid width */
+    max-width: 400px; /* Match the implied content width from button positioning */
     width: 100%;
     margin: 20px auto;
     text-align: left;
+    overflow-wrap: break-word;
 }
 
 .word-group {
@@ -153,15 +154,19 @@ body {
     margin: 0 0 8px;
     font-size: 14px;
     line-height: 1.4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px; /* vertical gap 4px, horizontal gap 12px */
 }
 
 .word-link {
     color: var(--text-color);
     text-decoration: none;
-    margin-right: 12px;
     padding: 2px 6px;
     border-radius: 4px;
     transition: background-color 0.2s ease;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .word-link:hover {
@@ -261,7 +266,7 @@ body {
     }
 
     .mode-selector {
-        max-width: 170px; /* Match mobile grid width */
+        max-width: 300px; /* Match mobile content width */
     }
     
     .toggle-text {
@@ -283,7 +288,11 @@ body {
     }
 
     .found-words-container {
-        max-width: 170px; /* Match mobile grid width */
+        max-width: 300px; /* Match mobile content width */
+    }
+
+    .words-list {
+        gap: 3px 8px; /* Smaller gaps on mobile */
     }
 }
 

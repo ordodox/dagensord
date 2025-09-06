@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     gap: 10px; /* Match grid gap */
-    width: 150px; /* 3 * 44px + 2 * 10px = 152px, rounded to 150px */
+    width: 194px; /* 4 * 44px + 3 * 10px = 176px + 18px = 194px */
     justify-content: center;
 }
 
@@ -37,7 +37,7 @@
 .floating-theme-btn {
     position: fixed;
     top: 20px;
-    right: calc(50% - 200px); /* Position relative to center, offset by content width */
+    right: calc(50% - 220px); /* Adjusted for wider content: was 200px, now 220px */
     width: 32px;
     height: 32px;
     border: none;
@@ -70,7 +70,7 @@
 /* Floating achievements button */
 .floating-theme-btn.achievements-btn {
     top: 60px; /* Position it below the theme button */
-    right: calc(50% - 200px); /* Same positioning calculation as theme button */
+    right: calc(50% - 220px); /* Same positioning calculation as theme button */
     font-size: 16px;
     display: flex;
     align-items: center;
@@ -99,6 +99,7 @@
     }
 
     .controls {
-        width: 130px;
+        width: 174px; /* 4 * 44px + 3 * 8px = 176px + 24px = 200px, but reduce gap to 8px = 174px */
+        gap: 8px; /* Slightly smaller gap for mobile */
     }
 }

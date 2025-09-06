@@ -51,6 +51,27 @@ class UIManager {
     this.elements.currentWord.textContent = this.gameState.currentWord;
   }
 
+  // Add this method to the UIManager class
+eraseLastLetter() {
+  const removedIndex = this.gameState.removeLastLetter();
+  if (removedIndex !== false) {
+    // Update the visual state of the grid cell
+    const gridCells = document.querySelectorAll('.letter-cell');
+    if (gridCells[removedIndex]) {
+      gridCells[removedIndex].classList.remove('used');
+    }
+    
+    // Update the current word display
+    this.updateCurrentWordDisplay();
+    
+    // Clear any messages (like error messages)
+    this.showMessage("");
+    
+    return true;
+  }
+  return false;
+}
+
   clearCurrentWord() {
     this.gameState.clearCurrentWord();
     this.updateCurrentWordDisplay();

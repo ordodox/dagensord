@@ -44,6 +44,7 @@ class ThemeManager {
     const iconSuffix = theme === "dark" ? "dark" : "light";
     const icons = {
       submitIcon : `img/submit_${iconSuffix}.png`,
+      eraseIcon : `img/erase_${iconSuffix}.png`,
       resetIcon : `img/reset_${iconSuffix}.png`,
       shuffleIcon : `img/shuffle_${iconSuffix}.png`,
       themeIcon : theme === "dark" ? "img/light.png" : "img/dark.png"

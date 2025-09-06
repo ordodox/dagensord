@@ -235,9 +235,11 @@ class WordGameController {
     this.bindModeToggle();
   }
 
+  
   bindButtonEvents() {
     const buttons = {
       submitWord : () => this.submitWord(),
+      eraseWord : () => this.ui.eraseLastLetter(),
       clearWord : () => this.ui.clearCurrentWord(),
       shuffleLetters : () => this.ui.shuffleLetters(),
       toggleThemeBtn : () => this.themeManager.toggle(),
@@ -251,6 +253,7 @@ class WordGameController {
       }
     });
   }
+
 
   bindDateEvents() {
     document.getElementById("prevDayBtn")
@@ -267,35 +270,39 @@ class WordGameController {
   }
 
   bindKeyboardEvents() {
-    document.addEventListener("keydown", (event) => {
-      if (event.target.tagName === "INPUT" ||
-          event.target.tagName === "TEXTAREA") {
-        return;
-      }
+  document.addEventListener("keydown", (event) => {
+    if (event.target.tagName === "INPUT" ||
+        event.target.tagName === "TEXTAREA") {
+      return;
+    }
 
-      switch (event.key) {
-      case "Enter":
-        this.submitWord();
-        event.preventDefault();
-        break;
+    switch (event.key) {
+    case "Enter":
+      this.submitWord();
+      event.preventDefault();
+      break;
 
-      case "Backspace":
-      case "Delete":
-        this.ui.clearCurrentWord();
-        event.preventDefault();
-        break;
+    case "Backspace":
+      this.ui.eraseLastLetter(); // Changed from clearCurrentWord to eraseLastLetter
+      event.preventDefault();
+      break;
 
-      case " ":
-        this.ui.shuffleLetters();
-        event.preventDefault();
-        break;
+    case "Delete":
+      this.ui.clearCurrentWord(); // Keep Delete for full clear
+      event.preventDefault();
+      break;
 
-      default:
-        this.handleLetterKeyPress(event);
-        break;
-      }
-    });
-  }
+    case " ":
+      this.ui.shuffleLetters();
+      event.preventDefault();
+      break;
+
+    default:
+      this.handleLetterKeyPress(event);
+      break;
+    }
+  });
+}
 
   handleLetterKeyPress(event) {
     if (event.ctrlKey || event.metaKey || event.altKey)
