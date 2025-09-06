@@ -47,6 +47,7 @@ class ThemeManager {
       eraseIcon : `img/erase_${iconSuffix}.png`,
       resetIcon : `img/reset_${iconSuffix}.png`,
       shuffleIcon : `img/shuffle_${iconSuffix}.png`,
+      achievementIcon : `img/achievement_${iconSuffix}.png`,
       themeIcon : theme === "dark" ? "img/light.png" : "img/dark.png"
     };
 

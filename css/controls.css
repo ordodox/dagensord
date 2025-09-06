@@ -71,10 +71,17 @@
 .floating-theme-btn.achievements-btn {
     top: 60px; /* Position it below the theme button */
     right: calc(50% - 220px); /* Same positioning calculation as theme button */
-    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.floating-theme-btn.achievements-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    user-select: none;
+    pointer-events: none;
 }
 
 /* Mobile adjustments */
@@ -95,7 +102,11 @@
     .floating-theme-btn.achievements-btn {
         top: 50px; /* Position below theme button on mobile */
         right: 15px; /* Same as mobile theme button */
-        font-size: 14px;
+    }
+
+    .floating-theme-btn.achievements-btn img {
+        width: 20px;
+        height: 20px;
     }
 
     .controls {
