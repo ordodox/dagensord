@@ -79,7 +79,6 @@ eraseLastLetter() {
     document.querySelectorAll(".letter-cell")
         .forEach(cell => { cell.classList.remove("used"); });
 
-    this.showMessage("");
   }
 
   

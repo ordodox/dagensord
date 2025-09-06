@@ -178,32 +178,37 @@ class WordGameController {
     this.ui.updateNavigationButtons();
   }
 
+
   submitWord() {
-    this.ui.showMessage("");
+  this.ui.showMessage("");
 
-    const validation = this.validator.validate(this.gameState.currentWord);
+  const validation = this.validator.validate(this.gameState.currentWord);
 
-    if (!validation.isValid) {
-      this.ui.showMessage(validation.errors[0]);
-      return;
-    }
-
-    this.gameState.addFoundWord(this.gameState.currentWord);
-    
-    const newAchievements = this.achievementManager.checkAchievements(this.gameState.currentWord);
-    
-    this.ui.renderFoundWords();
-    this.ui.showMessage(`${this.gameState.currentWord} hittat! 🎉`, true);
-
-    newAchievements.forEach((achievement, index) => {
-      setTimeout(() => this.showAchievementNotification(achievement), (index + 1) * 1000);
-    });
-
-    setTimeout(() => {
-      this.ui.showMessage("");
-      this.ui.clearCurrentWord();
-    }, 2000);
+  if (!validation.isValid) {
+    this.ui.showMessage(validation.errors[0]);
+    // Clear the current word even for invalid submissions
+    this.ui.clearCurrentWord();
+    return;
   }
+
+  this.gameState.addFoundWord(this.gameState.currentWord);
+  
+  const newAchievements = this.achievementManager.checkAchievements(this.gameState.currentWord);
+  
+  this.ui.renderFoundWords();
+  this.ui.showMessage(`${this.gameState.currentWord} hittat! 🎉`, true);
+
+  // Clear the current word immediately after successful submission
+  this.ui.clearCurrentWord();
+
+  newAchievements.forEach((achievement, index) => {
+    setTimeout(() => this.showAchievementNotification(achievement), (index + 1) * 1000);
+  });
+
+  setTimeout(() => {
+    this.ui.showMessage("");
+  }, 2000);
+}
 
   changeDate(deltaDays) {
     const newDate = new Date(this.gameState.currentDate);
