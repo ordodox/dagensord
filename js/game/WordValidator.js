@@ -7,29 +7,38 @@ class WordValidator {
   validate(word) {
     const errors = [];
 
+    if (word.length < 4) {
+      errors.push(this.getTranslation("messages.wordTooShort"));
+    }
+
     if (!word.includes(this.gameState.middleLetter)) {
-      errors.push(`Måste innehålla bokstaven ${this.gameState.middleLetter}.`);
+      errors.push(this.getTranslation("messages.wordMissingCenter", {
+        letter: this.gameState.middleLetter
+      }));
     }
 
-    if (word.length < 3) {
-      errors.push("Ordet måste vara minst 3 bokstäver!");
-    }
-
-    const nineLetterOnly = document.getElementById("nineLetterMode")?.checked;
-    if (nineLetterOnly && word.length !== 9) {
-      errors.push("Ordet måste bestå av alla 9 bokstäver.");
+    if (!this.dictionary.contains(word)) {
+      errors.push(this.getTranslation("messages.wordNotInDictionary"));
     }
 
     if (this.gameState.foundWords.has(word)) {
-      errors.push("Ord redan hittat!");
+      errors.push(this.getTranslation("messages.wordAlreadyFound"));
     }
 
-    if (!this.dictionary.has(word)) {
-      errors.push(`${word} finns ej i ordlistan.`);
-    }
-
-    return {isValid : errors.length === 0, errors};
+    return {
+      isValid: errors.length === 0,
+      errors
+    };
   }
+
+  getTranslation(key, params = {}) {
+    // Access translator through global game instance
+    if (window.game && window.game.translator) {
+      return window.game.translator.translate(key, params);
+    }
+    // Fallback to key if translator not available
+    return key;
+  } // ADD THIS MISSING CLOSING BRACE
 
   getPossibleWords() {
     const letterCounts = this.getLetterCounts();

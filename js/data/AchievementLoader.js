@@ -1,12 +1,12 @@
 class AchievementLoader {
   static async loadDefinitions() {
-    try {
-      const response = await fetch('js/data/achievements.json');
-      return await response.json();
-    } catch (error) {
-      console.error('Failed to load achievement definitions:', error);
+    // Get achievements from translations instead of separate JSON file
+    if (!window.game || !window.game.translator) {
+      console.error('Translator not available for achievements');
       return null;
     }
+
+    return window.game.translator.translations.achievements;
   }
 
   static formatDate(date, months) {
@@ -19,8 +19,9 @@ class AchievementLoader {
   static processDateAchievements(definitions, gameState) {
     const dateStr = this.formatDate(gameState.currentDate, definitions.dateFormats.months);
     
-    return definitions.dateAchievements.map(achievement => ({
-      id: achievement.id,
+    // Convert object to array since it's now an object in translations
+    return Object.entries(definitions.dateAchievements).map(([id, achievement]) => ({
+      id: id,
       name: achievement.nameTemplate.replace('{date}', dateStr),
       description: achievement.description,
       icon: achievement.icon,
@@ -29,7 +30,8 @@ class AchievementLoader {
   }
 
   static processGlobalAchievements(definitions, stats) {
-    return definitions.globalAchievements.map(achievement => {
+    // Convert object to array since it's now an object in translations
+    return Object.entries(definitions.globalAchievements).map(([id, achievement]) => {
       let current = 0;
       
       switch (achievement.type) {
@@ -48,7 +50,7 @@ class AchievementLoader {
       }
 
       const result = {
-        id: achievement.id,
+        id: id,
         name: achievement.name,
         icon: achievement.icon,
         unlocked: false,

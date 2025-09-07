@@ -7,16 +7,31 @@ class WordGameController {
     this.ui = new UIManager(this.gameState, this.validator);
     this.themeManager = new ThemeManager();
     this.achievementManager = new AchievementManager(this.gameState);
+    this.translator = new Translator();
   }
 
+
   async init() {
+  // Initialize translator first
+  const translationsLoaded = await this.translator.init();
+  if (!translationsLoaded) {
+    console.error("Could not load translations");
+    return;
+  }
+  
+  // Set page title
+  this.translator.updateTitle("title");
+  
   const dictionaryLoaded = await this.dictionary.load();
   if (!dictionaryLoaded) {
-    this.ui.showMessage("Kunde inte ladda ordlistan.");
+    this.ui.showMessage(this.translator.translate("messages.dictionaryLoadError"));
     return;
   }
 
   this.gameState.dictionary = this.dictionary.dictionary;
+  
+  // Make translator globally available for other components
+  window.game = this;
   
   // Initialize achievement manager
   const achievementsLoaded = await this.achievementManager.init();
@@ -178,7 +193,6 @@ class WordGameController {
     this.ui.updateNavigationButtons();
   }
 
-
   submitWord() {
   this.ui.showMessage("");
 
@@ -186,7 +200,6 @@ class WordGameController {
 
   if (!validation.isValid) {
     this.ui.showMessage(validation.errors[0]);
-    // Clear the current word even for invalid submissions
     this.ui.clearCurrentWord();
     return;
   }
@@ -196,9 +209,11 @@ class WordGameController {
   const newAchievements = this.achievementManager.checkAchievements(this.gameState.currentWord);
   
   this.ui.renderFoundWords();
-  this.ui.showMessage(`${this.gameState.currentWord} hittat! 🎉`, true);
+  const successMessage = this.translator.translate("messages.wordFound", {
+    word: this.gameState.currentWord
+  });
+  this.ui.showMessage(successMessage, true);
 
-  // Clear the current word immediately after successful submission
   this.ui.clearCurrentWord();
 
   newAchievements.forEach((achievement, index) => {

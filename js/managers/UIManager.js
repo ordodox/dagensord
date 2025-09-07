@@ -223,18 +223,32 @@ eraseLastLetter() {
     return link;
   }
 
+
+  // In your existing UIManager class, update these methods:
+
+
   updateSummary(nineLetterOnly) {
-    const totalFound = Array.from(this.gameState.foundWords)
-                           .filter(word => !nineLetterOnly || word.length === 9)
-                           .length;
+  // Calculate the totals first
+  const totalFound = Array.from(this.gameState.foundWords)
+                         .filter(word => !nineLetterOnly || word.length === 9)
+                         .length;
 
-    const totalPossible =
-        this.gameState.possibleWords
-            .filter(word => !nineLetterOnly || word.length === 9)
-            .length;
+  const totalPossible = this.gameState.possibleWords
+                         .filter(word => !nineLetterOnly || word.length === 9)
+                         .length;
 
-    this.elements.summary.textContent = `${totalFound} / ${totalPossible} ord`;
-  }
+  // Use translator if available
+  const summaryText = window.game?.translator ? 
+    window.game.translator.translate("wordsFound", {
+      found: totalFound,
+      total: totalPossible
+    }) : 
+    `${totalFound} / ${totalPossible} ord`;
+  
+  // Update your summary element
+  document.getElementById("wordsFoundSummary").textContent = summaryText;
+}
+
 
   updateDateInput() {
     if (this.elements.dateInput) {
