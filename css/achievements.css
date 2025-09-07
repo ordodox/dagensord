@@ -72,32 +72,6 @@
   opacity: 0.7;
 }
 
-.achievement-refresh-btn {
-  background: #f0f0f0;
-  border: 2px solid #cccccc;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 16px;
-  cursor: pointer;
-  color: #333333;
-  transition: all 0.3s ease;
-}
-
-[data-theme="dark"] .achievement-refresh-btn {
-  background: #444444;
-  border-color: #666666;
-  color: #ffffff;
-}
-
-.achievement-refresh-btn:hover {
-  background: #e0e0e0;
-  transform: scale(1.05);
-}
-
-[data-theme="dark"] .achievement-refresh-btn:hover {
-  background: #555555;
-}
-
 .achievements-list {
   display: flex;
   flex-direction: column;

@@ -53,17 +53,9 @@ class WordGameController {
 
     const modal = document.getElementById('achievement-modal');
     const closeBtn = document.querySelector('.achievement-close');
-    const refreshBtn = document.getElementById('achievement-refresh-btn');
 
     if (closeBtn) {
       closeBtn.addEventListener('click', () => this.hideAchievements());
-    }
-
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', () => {
-        this.achievementManager.runMigration();
-        this.showAchievements(); // Refresh the modal display
-      });
     }
 
     if (modal) {
