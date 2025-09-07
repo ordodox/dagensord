@@ -1,5 +1,5 @@
 {
-  "title": "Dagens ord",
+  "title": "Ordagrann",
   "wordsFound": "{found} / {total} ord",
   "buttons": {
     "submit": "Skicka ord",
@@ -30,11 +30,10 @@
   },
   "achievements": {
     "title": "🏆 Prestationer",
-    "refresh": "Uppdatera prestationer",
     "unlocked": "Upplåst: {date}",
     "dateAchievements": {
       "nine_letter_word": {
-        "nameTemplate": "Hittade ett 9-bokstavers ord ({date})",
+        "nameTemplate": "Hittade ett 9-bokstäversord ({date})",
         "description": "Hitta ett ord som använder alla 9 bokstäver",
         "icon": "🌟"
       },
@@ -53,35 +52,35 @@
         "type": "streak"
       },
       "nine_letter_10": {
-        "name": "Nio-bokstavers samlare",
-        "descriptionTemplate": "Hitta 10 nio-bokstavers ord totalt ({current}/10)",
+        "name": "Nio-bokstäverssamlare",
+        "descriptionTemplate": "Hitta 10 nio-bokstäversord totalt ({current}/10)",
         "icon": "📚",
         "target": 10,
         "type": "nine_letter"
       },
       "nine_letter_25": {
-        "name": "Nio-bokstavers expert",
-        "descriptionTemplate": "Hitta 25 nio-bokstavers ord totalt ({current}/25)",
+        "name": "Nio-bokstäversexpert",
+        "descriptionTemplate": "Hitta 25 nio-bokstäversord totalt ({current}/25)",
         "icon": "🎓",
         "target": 25,
         "type": "nine_letter"
       },
       "nine_letter_50": {
-        "name": "Nio-bokstavers mästare",
-        "descriptionTemplate": "Hitta 50 nio-bokstavers ord totalt ({current}/50)",
+        "name": "Nio-bokstäversmästare",
+        "descriptionTemplate": "Hitta 50 nio-bokstäversord totalt ({current}/50)",
         "icon": "👑",
         "target": 50,
         "type": "nine_letter"
       },
       "nine_letter_100": {
-        "name": "Nio-bokstavers legend",
-        "descriptionTemplate": "Hitta 100 nio-bokstavers ord totalt ({current}/100)",
+        "name": "Nio-bokstäverslegend",
+        "descriptionTemplate": "Hitta 100 nio-bokstäversord totalt ({current}/100)",
         "icon": "🌟",
         "target": 100,
         "type": "nine_letter"
       },
       "all_words_10": {
-        "name": "Fullständighetssöker",
+        "name": "Kompletterare",
         "descriptionTemplate": "Hitta alla ord 10 gånger totalt ({current}/10)",
         "icon": "🔍",
         "target": 10,

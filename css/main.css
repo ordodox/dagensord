@@ -24,6 +24,36 @@ body {
     font-weight: 600;
 }
 
+
+.logo {
+    font-weight: bold;
+}
+
+.logo .highlight {
+    background-color: #ffaa00;
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+/* Light mode - black text */
+[data-theme="light"] .logo {
+    color: black;
+}
+
+[data-theme="light"] .logo .highlight {
+    color: black;
+}
+
+/* Dark mode - white text */
+[data-theme="dark"] .logo {
+    color: white;
+}
+
+[data-theme="dark"] .logo .highlight {
+    color: black; /* Keep highlight text black for contrast with yellow background */
+}
+
+
 .words-summary {
     font-weight: bold;
     font-size: 1.1rem;
