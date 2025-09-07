@@ -7,7 +7,7 @@ class WordValidator {
   validate(word) {
     const errors = [];
 
-    if (word.length < 4) {
+    if (word.length < 3) {
       errors.push(this.getTranslation("messages.wordTooShort"));
     }
 
