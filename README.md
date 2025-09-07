@@ -21,7 +21,7 @@ A daily Swedish word puzzle game. Find as many words as possible using the given
 
 ## Play Online
 
-[Live Demo](https://yourusername.github.io/dagens-ord) *(coming soon)*
+[Live Demo](https://ordodox.github.io/dagens-ord) 
 
 ## Use Your Own Language
 
