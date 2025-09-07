@@ -101,22 +101,47 @@ eraseLastLetter() {
   }
 }
 
-
   shuffleLetters() {
-    const outerIndices = [ 0, 1, 2, 3, 5, 6, 7, 8 ];
-    const outerLetters = outerIndices.map(i => this.gameState.letters[i]);
-    const shuffled = GridGenerator.shuffleArray(outerLetters);
+  // Store the current word letters (not indices)
+  const currentWordLetters = this.gameState.currentWord.split('');
+  
+  const outerIndices = [ 0, 1, 2, 3, 5, 6, 7, 8 ];
+  const outerLetters = outerIndices.map(i => this.gameState.letters[i]);
+  const shuffled = GridGenerator.shuffleArray(outerLetters);
 
-    outerIndices.forEach(
-        (index, i) => { this.gameState.letters[index] = shuffled[i]; });
+  outerIndices.forEach((index, i) => { 
+    this.gameState.letters[index] = shuffled[i]; 
+  });
 
-    // Save the shuffled arrangement
-    this.gameState.saveShuffledGrid();
-
-    this.clearCurrentWord();
-    this.drawGrid();
+  // Save the shuffled arrangement
+  this.gameState.saveShuffledGrid();
+  
+  // Clear current selection
+  this.gameState.selectedIndices.clear();
+  
+  // Rebuild the selection based on the letters in the current word
+  for (const letter of currentWordLetters) {
+    // Find an available cell with this letter
+    for (let i = 0; i < this.gameState.letters.length; i++) {
+      if (this.gameState.letters[i] === letter && 
+          !this.gameState.selectedIndices.has(i)) {
+        this.gameState.selectedIndices.add(i);
+        break;
+      }
+    }
   }
-
+  
+  this.drawGrid();
+  
+  // Re-apply the 'used' state to the correct cells
+  this.gameState.selectedIndices.forEach(index => {
+    const cell = document.querySelector(`[data-index="${index}"]`);
+    if (cell) {
+      cell.classList.add('used');
+    }
+  });
+}
+  
   renderFoundWords() {
     const container = this.elements.foundWords;
     container.innerHTML = "";
