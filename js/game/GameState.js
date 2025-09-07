@@ -4,7 +4,7 @@ class GameState {
     this.selectedIndices = new Set();
     this.foundWords = new Set();
     this.dictionary = new Set();
-    this.possibleWords = []; // This can be filtered based on 9-letter mode
+    this.possibleWords = [];    // This can be filtered based on 9-letter mode
     this.allPossibleWords = []; // This always contains ALL possible words
     this.letters = [];
     this.middleLetter = "";
@@ -27,21 +27,21 @@ class GameState {
     return true;
   }
 
-
   // Add this method to the GameState class
-removeLastLetter() {
-  if (this.currentWord.length === 0) return false;
-  
-  // Get the last selected index
-  const indices = Array.from(this.selectedIndices);
-  const lastIndex = indices[indices.length - 1];
-  
-  // Remove the last letter and index
-  this.currentWord = this.currentWord.slice(0, -1);
-  this.selectedIndices.delete(lastIndex);
-  
-  return lastIndex; // Return the index so UI can update the visual state
-}
+  removeLastLetter() {
+    if (this.currentWord.length === 0)
+      return false;
+
+    // Get the last selected index
+    const indices = Array.from(this.selectedIndices);
+    const lastIndex = indices[indices.length - 1];
+
+    // Remove the last letter and index
+    this.currentWord = this.currentWord.slice(0, -1);
+    this.selectedIndices.delete(lastIndex);
+
+    return lastIndex; // Return the index so UI can update the visual state
+  }
 
   clearCurrentWord() {
     this.currentWord = "";

@@ -52,25 +52,25 @@ class UIManager {
   }
 
   // Add this method to the UIManager class
-eraseLastLetter() {
-  const removedIndex = this.gameState.removeLastLetter();
-  if (removedIndex !== false) {
-    // Update the visual state of the grid cell
-    const gridCells = document.querySelectorAll('.letter-cell');
-    if (gridCells[removedIndex]) {
-      gridCells[removedIndex].classList.remove('used');
+  eraseLastLetter() {
+    const removedIndex = this.gameState.removeLastLetter();
+    if (removedIndex !== false) {
+      // Update the visual state of the grid cell
+      const gridCells = document.querySelectorAll('.letter-cell');
+      if (gridCells[removedIndex]) {
+        gridCells[removedIndex].classList.remove('used');
+      }
+
+      // Update the current word display
+      this.updateCurrentWordDisplay();
+
+      // Clear any messages (like error messages)
+      this.showMessage("");
+
+      return true;
     }
-    
-    // Update the current word display
-    this.updateCurrentWordDisplay();
-    
-    // Clear any messages (like error messages)
-    this.showMessage("");
-    
-    return true;
+    return false;
   }
-  return false;
-}
 
   clearCurrentWord() {
     this.gameState.clearCurrentWord();
@@ -78,70 +78,67 @@ eraseLastLetter() {
 
     document.querySelectorAll(".letter-cell")
         .forEach(cell => { cell.classList.remove("used"); });
-
   }
 
-  
   showMessage(text, isSuccess = false) {
-  if (text) {
-    this.elements.message.textContent = text;
-    this.elements.message.style.visibility = 'visible';
-    this.elements.message.style.opacity = '1';
-  } else {
-    this.elements.message.style.visibility = 'hidden';
-    this.elements.message.style.opacity = '0';
-    // Don't clear the text, just hide it
-  }
+    if (text) {
+      this.elements.message.textContent = text;
+      this.elements.message.style.visibility = 'visible';
+      this.elements.message.style.opacity = '1';
+    } else {
+      this.elements.message.style.visibility = 'hidden';
+      this.elements.message.style.opacity = '0';
+      // Don't clear the text, just hide it
+    }
 
-  if (isSuccess) {
-    this.elements.message.classList.add("celebrating");
-    setTimeout(() => {
-      this.elements.message.classList.remove("celebrating");
-    }, 500);
+    if (isSuccess) {
+      this.elements.message.classList.add("celebrating");
+      setTimeout(
+          () => { this.elements.message.classList.remove("celebrating"); },
+          500);
+    }
   }
-}
 
   shuffleLetters() {
-  // Store the current word letters (not indices)
-  const currentWordLetters = this.gameState.currentWord.split('');
-  
-  const outerIndices = [ 0, 1, 2, 3, 5, 6, 7, 8 ];
-  const outerLetters = outerIndices.map(i => this.gameState.letters[i]);
-  const shuffled = GridGenerator.shuffleArray(outerLetters);
+    // Store the current word letters (not indices)
+    const currentWordLetters = this.gameState.currentWord.split('');
 
-  outerIndices.forEach((index, i) => { 
-    this.gameState.letters[index] = shuffled[i]; 
-  });
+    const outerIndices = [ 0, 1, 2, 3, 5, 6, 7, 8 ];
+    const outerLetters = outerIndices.map(i => this.gameState.letters[i]);
+    const shuffled = GridGenerator.shuffleArray(outerLetters);
 
-  // Save the shuffled arrangement
-  this.gameState.saveShuffledGrid();
-  
-  // Clear current selection
-  this.gameState.selectedIndices.clear();
-  
-  // Rebuild the selection based on the letters in the current word
-  for (const letter of currentWordLetters) {
-    // Find an available cell with this letter
-    for (let i = 0; i < this.gameState.letters.length; i++) {
-      if (this.gameState.letters[i] === letter && 
-          !this.gameState.selectedIndices.has(i)) {
-        this.gameState.selectedIndices.add(i);
-        break;
+    outerIndices.forEach(
+        (index, i) => { this.gameState.letters[index] = shuffled[i]; });
+
+    // Save the shuffled arrangement
+    this.gameState.saveShuffledGrid();
+
+    // Clear current selection
+    this.gameState.selectedIndices.clear();
+
+    // Rebuild the selection based on the letters in the current word
+    for (const letter of currentWordLetters) {
+      // Find an available cell with this letter
+      for (let i = 0; i < this.gameState.letters.length; i++) {
+        if (this.gameState.letters[i] === letter &&
+            !this.gameState.selectedIndices.has(i)) {
+          this.gameState.selectedIndices.add(i);
+          break;
+        }
       }
     }
+
+    this.drawGrid();
+
+    // Re-apply the 'used' state to the correct cells
+    this.gameState.selectedIndices.forEach(index => {
+      const cell = document.querySelector(`[data-index="${index}"]`);
+      if (cell) {
+        cell.classList.add('used');
+      }
+    });
   }
-  
-  this.drawGrid();
-  
-  // Re-apply the 'used' state to the correct cells
-  this.gameState.selectedIndices.forEach(index => {
-    const cell = document.querySelector(`[data-index="${index}"]`);
-    if (cell) {
-      cell.classList.add('used');
-    }
-  });
-}
-  
+
   renderFoundWords() {
     const container = this.elements.foundWords;
     container.innerHTML = "";
@@ -223,32 +220,29 @@ eraseLastLetter() {
     return link;
   }
 
-
   // In your existing UIManager class, update these methods:
 
-
   updateSummary(nineLetterOnly) {
-  // Calculate the totals first
-  const totalFound = Array.from(this.gameState.foundWords)
-                         .filter(word => !nineLetterOnly || word.length === 9)
-                         .length;
+    // Calculate the totals first
+    const totalFound = Array.from(this.gameState.foundWords)
+                           .filter(word => !nineLetterOnly || word.length === 9)
+                           .length;
 
-  const totalPossible = this.gameState.possibleWords
-                         .filter(word => !nineLetterOnly || word.length === 9)
-                         .length;
+    const totalPossible =
+        this.gameState.possibleWords
+            .filter(word => !nineLetterOnly || word.length === 9)
+            .length;
 
-  // Use translator if available
-  const summaryText = window.game?.translator ? 
-    window.game.translator.translate("wordsFound", {
-      found: totalFound,
-      total: totalPossible
-    }) : 
-    `${totalFound} / ${totalPossible} ord`;
-  
-  // Update your summary element
-  document.getElementById("wordsFoundSummary").textContent = summaryText;
-}
+    // Use translator if available
+    const summaryText =
+        window.game?.translator
+            ? window.game.translator.translate(
+                  "wordsFound", {found : totalFound, total : totalPossible})
+            : `${totalFound} / ${totalPossible} ord`;
 
+    // Update your summary element
+    document.getElementById("wordsFoundSummary").textContent = summaryText;
+  }
 
   updateDateInput() {
     if (this.elements.dateInput) {

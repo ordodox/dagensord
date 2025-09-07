@@ -12,9 +12,8 @@ class WordValidator {
     }
 
     if (!word.includes(this.gameState.middleLetter)) {
-      errors.push(this.getTranslation("messages.wordMissingCenter", {
-        letter: this.gameState.middleLetter
-      }));
+      errors.push(this.getTranslation("messages.wordMissingCenter",
+                                      {letter : this.gameState.middleLetter}));
     }
 
     if (!this.dictionary.contains(word)) {
@@ -25,10 +24,7 @@ class WordValidator {
       errors.push(this.getTranslation("messages.wordAlreadyFound"));
     }
 
-    return {
-      isValid: errors.length === 0,
-      errors
-    };
+    return {isValid : errors.length === 0, errors};
   }
 
   getTranslation(key, params = {}) {

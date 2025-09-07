@@ -10,40 +10,40 @@ class WordGameController {
     this.translator = new Translator();
   }
 
-
   async init() {
-  // Initialize translator first
-  const translationsLoaded = await this.translator.init();
-  if (!translationsLoaded) {
-    console.error("Could not load translations");
-    return;
-  }
-  
-  // Set page title
-  this.translator.updateTitle("title");
-  
-  const dictionaryLoaded = await this.dictionary.load();
-  if (!dictionaryLoaded) {
-    this.ui.showMessage(this.translator.translate("messages.dictionaryLoadError"));
-    return;
-  }
+    // Initialize translator first
+    const translationsLoaded = await this.translator.init();
+    if (!translationsLoaded) {
+      console.error("Could not load translations");
+      return;
+    }
 
-  this.gameState.dictionary = this.dictionary.dictionary;
-  
-  // Make translator globally available for other components
-  window.game = this;
-  
-  // Initialize achievement manager
-  const achievementsLoaded = await this.achievementManager.init();
-  if (!achievementsLoaded) {
-    console.warn("Could not load achievements");
+    // Set page title
+    this.translator.updateTitle("title");
+
+    const dictionaryLoaded = await this.dictionary.load();
+    if (!dictionaryLoaded) {
+      this.ui.showMessage(
+          this.translator.translate("messages.dictionaryLoadError"));
+      return;
+    }
+
+    this.gameState.dictionary = this.dictionary.dictionary;
+
+    // Make translator globally available for other components
+    window.game = this;
+
+    // Initialize achievement manager
+    const achievementsLoaded = await this.achievementManager.init();
+    if (!achievementsLoaded) {
+      console.warn("Could not load achievements");
+    }
+
+    this.setupInitialDate();
+    this.setupGame();
+    this.bindEvents();
+    this.setupAchievementUI();
   }
-  
-  this.setupInitialDate();
-  this.setupGame();
-  this.bindEvents();
-  this.setupAchievementUI();
-}
 
   setupAchievementUI() {
     const achievementsBtn = document.getElementById('achievements-btn');
@@ -54,21 +54,22 @@ class WordGameController {
     const modal = document.getElementById('achievement-modal');
     const closeBtn = document.querySelector('.achievement-close');
     const refreshBtn = document.getElementById('achievement-refresh-btn');
-    
+
     if (closeBtn) {
       closeBtn.addEventListener('click', () => this.hideAchievements());
     }
-    
+
     if (refreshBtn) {
       refreshBtn.addEventListener('click', () => {
         this.achievementManager.runMigration();
         this.showAchievements(); // Refresh the modal display
       });
     }
-    
+
     if (modal) {
       modal.addEventListener('click', (e) => {
-        if (e.target === modal) this.hideAchievements();
+        if (e.target === modal)
+          this.hideAchievements();
       });
     }
   }
@@ -76,34 +77,43 @@ class WordGameController {
   showAchievements() {
     const modal = document.getElementById('achievement-modal');
     const list = document.getElementById('achievements-list');
-    
-    if (!modal || !list) return;
-    
+
+    if (!modal || !list)
+      return;
+
     const achievements = this.achievementManager.getAllAchievements();
-    const unlockedAchievements = this.achievementManager.getUnlockedAchievements();
-    
-    list.innerHTML = achievements.map(achievement => {
-      const unlocked = unlockedAchievements.find(u => u.id === achievement.id);
-      const unlockedClass = achievement.unlocked ? 'unlocked' : 'locked';
-      
-      let dateText = '';
-      if (unlocked) {
-        const date = new Date(unlocked.unlockedAt);
-        dateText = `<div class="achievement-item-date">Upplåst: ${date.toLocaleDateString('sv-SE')}</div>`;
-      }
-      
-      return `
+    const unlockedAchievements =
+        this.achievementManager.getUnlockedAchievements();
+
+    list.innerHTML =
+        achievements
+            .map(achievement => {
+              const unlocked =
+                  unlockedAchievements.find(u => u.id === achievement.id);
+              const unlockedClass =
+                  achievement.unlocked ? 'unlocked' : 'locked';
+
+              let dateText = '';
+              if (unlocked) {
+                const date = new Date(unlocked.unlockedAt);
+                dateText = `<div class="achievement-item-date">Upplåst: ${
+                    date.toLocaleDateString('sv-SE')}</div>`;
+              }
+
+              return `
         <div class="achievement-item ${unlockedClass}">
           <div class="achievement-item-icon">${achievement.icon}</div>
           <div class="achievement-item-text">
             <div class="achievement-item-title">${achievement.name}</div>
-            <div class="achievement-item-description">${achievement.description}</div>
+            <div class="achievement-item-description">${
+                  achievement.description}</div>
             ${dateText}
           </div>
         </div>
       `;
-    }).join('');
-    
+            })
+            .join('');
+
     modal.classList.remove('hidden');
   }
 
@@ -116,19 +126,23 @@ class WordGameController {
 
   showAchievementNotification(achievement) {
     const notification = document.getElementById('achievement-notification');
-    if (!notification) return;
-    
+    if (!notification)
+      return;
+
     const icon = notification.querySelector('.achievement-icon');
     const title = notification.querySelector('.achievement-title');
     const description = notification.querySelector('.achievement-description');
-    
-    if (icon) icon.textContent = achievement.icon;
-    if (title) title.textContent = achievement.name;
-    if (description) description.textContent = achievement.description;
-    
+
+    if (icon)
+      icon.textContent = achievement.icon;
+    if (title)
+      title.textContent = achievement.name;
+    if (description)
+      description.textContent = achievement.description;
+
     notification.classList.remove('hidden');
     setTimeout(() => notification.classList.add('show'), 100);
-    
+
     setTimeout(() => {
       notification.classList.remove('show');
       setTimeout(() => notification.classList.add('hidden'), 300);
@@ -178,52 +192,53 @@ class WordGameController {
 
     this.ui.drawGrid();
     this.gameState.loadFoundWords();
-    
+
     // NEW: Set the complete unfiltered list first
     this.gameState.allPossibleWords = this.validator.getPossibleWords();
-    
+
     // NEW: Then set the filtered list based on current mode
-    const nineLetterMode = document.getElementById("nineLetterMode")?.checked || false;
-    this.gameState.possibleWords = nineLetterMode ? 
-      this.gameState.allPossibleWords.filter(word => word.length === 9) : 
-      this.gameState.allPossibleWords;
-    
+    const nineLetterMode =
+        document.getElementById("nineLetterMode")?.checked || false;
+    this.gameState.possibleWords =
+        nineLetterMode
+            ? this.gameState.allPossibleWords.filter(word => word.length === 9)
+            : this.gameState.allPossibleWords;
+
     this.ui.renderFoundWords();
     this.ui.updateDateInput();
     this.ui.updateNavigationButtons();
   }
 
   submitWord() {
-  this.ui.showMessage("");
-
-  const validation = this.validator.validate(this.gameState.currentWord);
-
-  if (!validation.isValid) {
-    this.ui.showMessage(validation.errors[0]);
-    this.ui.clearCurrentWord();
-    return;
-  }
-
-  this.gameState.addFoundWord(this.gameState.currentWord);
-  
-  const newAchievements = this.achievementManager.checkAchievements(this.gameState.currentWord);
-  
-  this.ui.renderFoundWords();
-  const successMessage = this.translator.translate("messages.wordFound", {
-    word: this.gameState.currentWord
-  });
-  this.ui.showMessage(successMessage, true);
-
-  this.ui.clearCurrentWord();
-
-  newAchievements.forEach((achievement, index) => {
-    setTimeout(() => this.showAchievementNotification(achievement), (index + 1) * 1000);
-  });
-
-  setTimeout(() => {
     this.ui.showMessage("");
-  }, 2000);
-}
+
+    const validation = this.validator.validate(this.gameState.currentWord);
+
+    if (!validation.isValid) {
+      this.ui.showMessage(validation.errors[0]);
+      this.ui.clearCurrentWord();
+      return;
+    }
+
+    this.gameState.addFoundWord(this.gameState.currentWord);
+
+    const newAchievements =
+        this.achievementManager.checkAchievements(this.gameState.currentWord);
+
+    this.ui.renderFoundWords();
+    const successMessage = this.translator.translate(
+        "messages.wordFound", {word : this.gameState.currentWord});
+    this.ui.showMessage(successMessage, true);
+
+    this.ui.clearCurrentWord();
+
+    newAchievements.forEach((achievement, index) => {
+      setTimeout(() => this.showAchievementNotification(achievement),
+                 (index + 1) * 1000);
+    });
+
+    setTimeout(() => { this.ui.showMessage(""); }, 2000);
+  }
 
   changeDate(deltaDays) {
     const newDate = new Date(this.gameState.currentDate);
@@ -255,7 +270,6 @@ class WordGameController {
     this.bindModeToggle();
   }
 
-  
   bindButtonEvents() {
     const buttons = {
       submitWord : () => this.submitWord(),
@@ -274,7 +288,6 @@ class WordGameController {
     });
   }
 
-
   bindDateEvents() {
     document.getElementById("prevDayBtn")
         ?.addEventListener("click", () => { this.changeDate(-1); });
@@ -290,39 +303,40 @@ class WordGameController {
   }
 
   bindKeyboardEvents() {
-  document.addEventListener("keydown", (event) => {
-    if (event.target.tagName === "INPUT" ||
-        event.target.tagName === "TEXTAREA") {
-      return;
-    }
+    document.addEventListener("keydown", (event) => {
+      if (event.target.tagName === "INPUT" ||
+          event.target.tagName === "TEXTAREA") {
+        return;
+      }
 
-    switch (event.key) {
-    case "Enter":
-      this.submitWord();
-      event.preventDefault();
-      break;
+      switch (event.key) {
+      case "Enter":
+        this.submitWord();
+        event.preventDefault();
+        break;
 
-    case "Backspace":
-      this.ui.eraseLastLetter(); // Changed from clearCurrentWord to eraseLastLetter
-      event.preventDefault();
-      break;
+      case "Backspace":
+        this.ui.eraseLastLetter(); // Changed from clearCurrentWord to
+                                   // eraseLastLetter
+        event.preventDefault();
+        break;
 
-    case "Delete":
-      this.ui.clearCurrentWord(); // Keep Delete for full clear
-      event.preventDefault();
-      break;
+      case "Delete":
+        this.ui.clearCurrentWord(); // Keep Delete for full clear
+        event.preventDefault();
+        break;
 
-    case " ":
-      this.ui.shuffleLetters();
-      event.preventDefault();
-      break;
+      case " ":
+        this.ui.shuffleLetters();
+        event.preventDefault();
+        break;
 
-    default:
-      this.handleLetterKeyPress(event);
-      break;
-    }
-  });
-}
+      default:
+        this.handleLetterKeyPress(event);
+        break;
+      }
+    });
+  }
 
   handleLetterKeyPress(event) {
     if (event.ctrlKey || event.metaKey || event.altKey)
@@ -351,12 +365,15 @@ class WordGameController {
   bindModeToggle() {
     document.getElementById("nineLetterMode")
         ?.addEventListener("change", () => {
-          // NEW: Update filtered list based on current mode, but keep allPossibleWords unchanged
-          const nineLetterMode = document.getElementById("nineLetterMode")?.checked || false;
-          this.gameState.possibleWords = nineLetterMode ? 
-            this.gameState.allPossibleWords.filter(word => word.length === 9) : 
-            this.gameState.allPossibleWords;
-          
+          // NEW: Update filtered list based on current mode, but keep
+          // allPossibleWords unchanged
+          const nineLetterMode =
+              document.getElementById("nineLetterMode")?.checked || false;
+          this.gameState.possibleWords =
+              nineLetterMode ? this.gameState.allPossibleWords.filter(
+                                   word => word.length === 9)
+                             : this.gameState.allPossibleWords;
+
           this.ui.renderFoundWords();
         });
   }

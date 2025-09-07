@@ -17,56 +17,60 @@ class AchievementLoader {
   }
 
   static processDateAchievements(definitions, gameState) {
-    const dateStr = this.formatDate(gameState.currentDate, definitions.dateFormats.months);
-    
+    const dateStr =
+        this.formatDate(gameState.currentDate, definitions.dateFormats.months);
+
     // Convert object to array since it's now an object in translations
-    return Object.entries(definitions.dateAchievements).map(([id, achievement]) => ({
-      id: id,
-      name: achievement.nameTemplate.replace('{date}', dateStr),
-      description: achievement.description,
-      icon: achievement.icon,
-      unlocked: false
-    }));
+    return Object.entries(definitions.dateAchievements)
+        .map(([ id, achievement ]) => ({
+               id : id,
+               name : achievement.nameTemplate.replace('{date}', dateStr),
+               description : achievement.description,
+               icon : achievement.icon,
+               unlocked : false
+             }));
   }
 
   static processGlobalAchievements(definitions, stats) {
     // Convert object to array since it's now an object in translations
-    return Object.entries(definitions.globalAchievements).map(([id, achievement]) => {
-      let current = 0;
-      
-      switch (achievement.type) {
-        case 'streak':
-          current = stats.currentStreak;
-          break;
-        case 'nine_letter':
-          current = stats.totalNineLetterWords;
-          break;
-        case 'all_words':
-          current = stats.totalAllWordsCompleted;
-          break;
-        case 'special':
-          current = 1; // For night owl, we don't track progress
-          break;
-      }
+    return Object.entries(definitions.globalAchievements)
+        .map(([ id, achievement ]) => {
+          let current = 0;
 
-      const result = {
-        id: id,
-        name: achievement.name,
-        icon: achievement.icon,
-        unlocked: false,
-        target: achievement.target,
-        type: achievement.type
-      };
+          switch (achievement.type) {
+          case 'streak':
+            current = stats.currentStreak;
+            break;
+          case 'nine_letter':
+            current = stats.totalNineLetterWords;
+            break;
+          case 'all_words':
+            current = stats.totalAllWordsCompleted;
+            break;
+          case 'special':
+            current = 1; // For night owl, we don't track progress
+            break;
+          }
 
-      if (achievement.descriptionTemplate) {
-        result.description = achievement.descriptionTemplate
-          .replace('{current}', Math.min(current, achievement.target))
-          .replace(`{${achievement.target}}`, achievement.target);
-      } else {
-        result.description = achievement.description;
-      }
+          const result = {
+            id : id,
+            name : achievement.name,
+            icon : achievement.icon,
+            unlocked : false,
+            target : achievement.target,
+            type : achievement.type
+          };
 
-      return result;
-    });
+          if (achievement.descriptionTemplate) {
+            result.description =
+                achievement.descriptionTemplate
+                    .replace('{current}', Math.min(current, achievement.target))
+                    .replace(`{${achievement.target}}`, achievement.target);
+          } else {
+            result.description = achievement.description;
+          }
+
+          return result;
+        });
   }
 }
