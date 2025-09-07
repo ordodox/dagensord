@@ -23,8 +23,6 @@ class DictionaryLoader {
       words.forEach(word => this.dictionary.add(word));
 
       this.isLoaded = true;
-      console.log(`Dictionary loaded: ${this.dictionary.size} words (${
-          LanguageConfig.language})`);
       return true;
     } catch (error) {
       console.error('Failed to load dictionary:', error);

@@ -7,7 +7,6 @@ class TranslationLoader {
       if (!response.ok)
         throw new Error('Translation file not found');
       this.translations = await response.json();
-      console.log(`Translations loaded: ${LanguageConfig.language}`);
       return true;
     } catch (error) {
       console.error('Failed to load translations:', error);

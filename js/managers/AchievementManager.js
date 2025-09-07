@@ -1,8 +1,5 @@
 class AchievementManager {
   constructor(gameState) {
-    console.log('AchievementManager: Constructor called');
-    console.log('AchievementManager: AchievementLoader available?',
-                typeof AchievementLoader);
     this.gameState = gameState;
     this.definitions = null;
     this.achievements = [];
