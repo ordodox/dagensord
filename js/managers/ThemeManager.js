@@ -43,12 +43,12 @@ class ThemeManager {
   updateIcons(theme) {
     const iconSuffix = theme === "dark" ? "dark" : "light";
     const icons = {
-      submitIcon : `img/submit_${iconSuffix}.png`,
-      eraseIcon : `img/erase_${iconSuffix}.png`,
-      resetIcon : `img/reset_${iconSuffix}.png`,
-      shuffleIcon : `img/shuffle_${iconSuffix}.png`,
-      achievementIcon : `img/achievement_${iconSuffix}.png`,
-      themeIcon : theme === "dark" ? "img/light.png" : "img/dark.png"
+      submitIcon : `img/ui/submit_${iconSuffix}.png`,
+      eraseIcon : `img/ui/erase_${iconSuffix}.png`,
+      resetIcon : `img/ui/reset_${iconSuffix}.png`,
+      shuffleIcon : `img/ui/shuffle_${iconSuffix}.png`,
+      achievementIcon : `img/ui/achievement_${iconSuffix}.png`,
+      themeIcon : theme === "dark" ? "img/ui/light.png" : "img/ui/dark.png"
     };
 
     Object.entries(icons).forEach(([ id, src ]) => {

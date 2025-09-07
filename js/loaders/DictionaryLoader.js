@@ -1,4 +1,4 @@
-class DictionaryManager {
+class DictionaryLoader {
   constructor() {
     this.dictionary = new Set();
     this.isLoaded = false;

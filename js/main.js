@@ -2,12 +2,12 @@
 class WordGameController {
   constructor() {
     this.gameState = new GameState();
-    this.dictionary = new DictionaryManager();
+    this.dictionary = new DictionaryLoader();
     this.validator = new WordValidator(this.gameState, this.dictionary);
     this.ui = new UIManager(this.gameState, this.validator);
     this.themeManager = new ThemeManager();
     this.achievementManager = new AchievementManager(this.gameState);
-    this.translator = new Translator();
+    this.translator = new TranslationLoader();
   }
 
   async init() {

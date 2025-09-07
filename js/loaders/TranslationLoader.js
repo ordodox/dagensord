@@ -1,4 +1,4 @@
-class Translator {
+class TranslationLoader {
   constructor() { this.translations = {}; }
 
   async init() {

@@ -4,8 +4,8 @@ const LanguageConfig = {
   language : 'sv',
 
   // Dictionary file to load
-  dictionaryFile : 'dictionaries/sv.txt',
+  dictionaryFile : 'data/dictionaries/sv.txt',
 
   // Translation file to load
-  translationFile : 'locales/sv.json'
+  translationFile : 'data/locales/sv.json'
 };
