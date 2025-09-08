@@ -107,6 +107,13 @@
         "target": 100,
         "type": "all_words"
       },
+      "total_words_1000": {
+        "name": "Millennial",
+        "descriptionTemplate": "Hitta 1000 ord totalt ({current}/1000)",
+        "icon": "🚀",
+        "target": 1000,
+        "type": "total_words"
+      },
       "night_owl": {
         "name": "Nattuggla",
         "description": "Spela mellan 00:00 och 04:00",

@@ -47,6 +47,9 @@ class AchievementLoader {
           case 'all_words':
             current = stats.totalAllWordsCompleted;
             break;
+          case 'total_words':
+            current = stats.totalWordsFound;
+            break;
           case 'special':
             current = 1; // For night owl, we don't track progress
             break;

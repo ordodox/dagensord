@@ -27,6 +27,7 @@ class AchievementManager {
     const stats = {
       totalNineLetterWords : this.getTotalNineLetterWords(),
       totalAllWordsCompleted : this.getTotalAllWordsCompleted(),
+      totalWordsFound : this.getTotalWordsFound(),
       currentStreak : this.getCurrentStreak()
     };
 
@@ -140,6 +141,20 @@ class AchievementManager {
     return total;
   }
 
+  getTotalWordsFound() {
+    let total = 0;
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('foundWords-')) {
+        const foundWords = JSON.parse(localStorage.getItem(key) || '[]');
+        total += foundWords.length;
+      }
+    }
+
+    return total;
+  }
+
   checkAchievements(newWord) {
     const newlyUnlocked = [];
 
@@ -191,6 +206,17 @@ class AchievementManager {
       }
     }
 
+    // Check total words achievement (Millennial)
+    const totalWordsFound = this.getTotalWordsFound();
+    if (totalWordsFound >= 1000 && !this.isGlobalUnlocked('total_words_1000')) {
+      this.unlockGlobal('total_words_1000');
+      const achievement = this.globalAchievements.find(a => a.id === 'total_words_1000');
+      if (achievement) {
+        achievement.unlocked = true;
+        newlyUnlocked.push(achievement);
+      }
+    }
+
     this.refreshAchievements();
 
     if (newWord.length === 9) {
@@ -220,6 +246,18 @@ class AchievementManager {
         }
       });
     }
+
+    // Check total words achievements on any word found
+    const totalWords = this.getTotalWordsFound();
+    this.globalAchievements.forEach(achievement => {
+      if (achievement.type === 'total_words' &&
+          totalWords >= achievement.target &&
+          !this.isGlobalUnlocked(achievement.id)) {
+        this.unlockGlobal(achievement.id);
+        achievement.unlocked = true;
+        newlyUnlocked.push(achievement);
+      }
+    });
 
     return newlyUnlocked;
   }
