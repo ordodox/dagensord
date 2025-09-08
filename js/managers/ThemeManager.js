@@ -48,6 +48,7 @@ class ThemeManager {
       resetIcon : `img/ui/reset_${iconSuffix}.png`,
       shuffleIcon : `img/ui/shuffle_${iconSuffix}.png`,
       achievementIcon : `img/ui/achievement_${iconSuffix}.png`,
+      helpIcon : `img/ui/help_${iconSuffix}.png`,
       themeIcon : theme === "dark" ? "img/ui/light.png" : "img/ui/dark.png"
     };
 

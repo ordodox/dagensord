@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="css/controls.css">
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/achievements.css">
+    <link rel="stylesheet" href="css/help.css">
 
 </head>
 <body data-theme="light">
@@ -45,6 +46,11 @@
     <!-- Floating achievements button (under theme button) -->
     <button class="floating-theme-btn achievements-btn" id="achievements-btn" title="Prestationer" aria-label="Prestationer">
         <img id="achievementIcon" src="img/ui/achievement_light.png" alt="Prestationer">
+    </button>
+    
+    <!-- Floating help button (under achievements button) -->
+    <button class="floating-theme-btn help-btn" id="help-btn" title="Hjälp" aria-label="Hjälp">
+        <img id="helpIcon" src="img/ui/help_light.png" alt="Hjälp">
     </button>
     
     <div class="game-container">
@@ -95,6 +101,20 @@
             </div>
         </div>
     </div>
+
+
+<!-- Help modal -->
+<div id="help-modal" class="achievement-modal hidden">
+  <div class="achievement-modal-content help-modal-content">
+    <div class="achievement-modal-header">
+      <span class="help-close">&times;</span>
+      <h2 id="help-title">❓ Hur man spelar</h2>
+    </div>
+    <div class="help-modal-body" id="help-content">
+      <!-- Content will be populated by JavaScript -->
+    </div>
+  </div>
+</div>
 
     <!-- Achievement notification -->
     <div id="achievement-notification" class="achievement-notification hidden">

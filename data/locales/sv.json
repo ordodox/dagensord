@@ -125,5 +125,41 @@
     "dateFormats": {
       "months": ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"]
     }
+  },
+  "help": {
+    "title": "❓ Hur man spelar",
+    "sections": {
+      "goal": {
+        "title": "🎯 Mål",
+        "content": "Hitta så många ord som möjligt med de givna bokstäverna. Varje dag har en ny uppsättning bokstäver."
+      },
+      "rules": {
+        "title": "📋 Regler",
+        "items": [
+          "Alla ord måste vara minst 3 bokstäver långa",
+          "Alla ord måste innehålla den gula mittenbokstaven",
+          "Du kan bara använda varje bokstav en gång",
+          "Endast ord från Svenska Akademiens ordlista räknas"
+        ]
+      },
+      "controls": {
+        "title": "🎮 Kontroller",
+        "items": [
+          "<strong>Klicka</strong> på bokstäver för att bygga ord",
+          "<strong>Enter</strong> - Skicka ordet",
+          "<strong>Backspace</strong> - Ta bort senaste bokstaven",
+          "<strong>Delete</strong> - Rensa hela ordet",
+          "<strong>Mellanslag</strong> - Blanda bokstäverna"
+        ]
+      },
+      "achievements": {
+        "title": "🏆 Prestationer",
+        "content": "Lås upp prestationer genom att hitta ord, lösa kompletta pussel, bygga streckor och mycket mer!"
+      },
+      "nineLetterMode": {
+        "title": "🔤 9-bokstavsläge",
+        "content": "Aktivera detta läge för att endast visa ord som använder alla 9 bokstäver - den ultimata utmaningen!"
+      }
+    }
   }
 }
