@@ -7,12 +7,12 @@ class UIManager {
 
   getElements() {
     return {
-      grid : document.getElementById("grid"),
-      currentWord : document.getElementById("currentWord"),
-      message : document.getElementById("message"),
-      foundWords : document.getElementById("foundWords"),
-      summary : document.getElementById("wordsFoundSummary"),
-      dateInput : document.getElementById("selectDate")
+      grid: document.getElementById("grid"),
+      currentWord: document.getElementById("currentWord"),
+      message: document.getElementById("message"),
+      foundWords: document.getElementById("foundWords"),
+      summary: document.getElementById("wordsFoundSummary"),
+      dateInput: document.getElementById("selectDate"),
     };
   }
 
@@ -35,8 +35,9 @@ class UIManager {
       cell.classList.add("center");
     }
 
-    cell.addEventListener("click",
-                          () => this.handleLetterClick(letter, index, cell));
+    cell.addEventListener("click", () =>
+      this.handleLetterClick(letter, index, cell),
+    );
     return cell;
   }
 
@@ -56,9 +57,9 @@ class UIManager {
     const removedIndex = this.gameState.removeLastLetter();
     if (removedIndex !== false) {
       // Update the visual state of the grid cell
-      const gridCells = document.querySelectorAll('.letter-cell');
+      const gridCells = document.querySelectorAll(".letter-cell");
       if (gridCells[removedIndex]) {
-        gridCells[removedIndex].classList.remove('used');
+        gridCells[removedIndex].classList.remove("used");
       }
 
       // Update the current word display
@@ -76,39 +77,41 @@ class UIManager {
     this.gameState.clearCurrentWord();
     this.updateCurrentWordDisplay();
 
-    document.querySelectorAll(".letter-cell")
-        .forEach(cell => { cell.classList.remove("used"); });
+    document.querySelectorAll(".letter-cell").forEach((cell) => {
+      cell.classList.remove("used");
+    });
   }
 
   showMessage(text, isSuccess = false) {
     if (text) {
       this.elements.message.textContent = text;
-      this.elements.message.style.visibility = 'visible';
-      this.elements.message.style.opacity = '1';
+      this.elements.message.style.visibility = "visible";
+      this.elements.message.style.opacity = "1";
     } else {
-      this.elements.message.style.visibility = 'hidden';
-      this.elements.message.style.opacity = '0';
+      this.elements.message.style.visibility = "hidden";
+      this.elements.message.style.opacity = "0";
       // Don't clear the text, just hide it
     }
 
     if (isSuccess) {
       this.elements.message.classList.add("celebrating");
-      setTimeout(
-          () => { this.elements.message.classList.remove("celebrating"); },
-          500);
+      setTimeout(() => {
+        this.elements.message.classList.remove("celebrating");
+      }, 500);
     }
   }
 
   shuffleLetters() {
     // Store the current word letters (not indices)
-    const currentWordLetters = this.gameState.currentWord.split('');
+    const currentWordLetters = this.gameState.currentWord.split("");
 
-    const outerIndices = [ 0, 1, 2, 3, 5, 6, 7, 8 ];
-    const outerLetters = outerIndices.map(i => this.gameState.letters[i]);
+    const outerIndices = [0, 1, 2, 3, 5, 6, 7, 8];
+    const outerLetters = outerIndices.map((i) => this.gameState.letters[i]);
     const shuffled = GridGenerator.shuffleArray(outerLetters);
 
-    outerIndices.forEach(
-        (index, i) => { this.gameState.letters[index] = shuffled[i]; });
+    outerIndices.forEach((index, i) => {
+      this.gameState.letters[index] = shuffled[i];
+    });
 
     // Save the shuffled arrangement
     this.gameState.saveShuffledGrid();
@@ -120,8 +123,10 @@ class UIManager {
     for (const letter of currentWordLetters) {
       // Find an available cell with this letter
       for (let i = 0; i < this.gameState.letters.length; i++) {
-        if (this.gameState.letters[i] === letter &&
-            !this.gameState.selectedIndices.has(i)) {
+        if (
+          this.gameState.letters[i] === letter &&
+          !this.gameState.selectedIndices.has(i)
+        ) {
           this.gameState.selectedIndices.add(i);
           break;
         }
@@ -131,10 +136,10 @@ class UIManager {
     this.drawGrid();
 
     // Re-apply the 'used' state to the correct cells
-    this.gameState.selectedIndices.forEach(index => {
+    this.gameState.selectedIndices.forEach((index) => {
       const cell = document.querySelector(`[data-index="${index}"]`);
       if (cell) {
-        cell.classList.add('used');
+        cell.classList.add("used");
       }
     });
   }
@@ -144,14 +149,18 @@ class UIManager {
     container.innerHTML = "";
 
     const nineLetterOnly = document.getElementById("nineLetterMode")?.checked;
-    const {foundByLength, totalByLength} =
-        this.groupWordsByLength(nineLetterOnly);
-    const lengths =
-        Object.keys(totalByLength).map(Number).sort((a, b) => a - b);
+    const { foundByLength, totalByLength } =
+      this.groupWordsByLength(nineLetterOnly);
+    const lengths = Object.keys(totalByLength)
+      .map(Number)
+      .sort((a, b) => a - b);
 
-    lengths.forEach(length => {
-      const group = this.createWordGroup(length, foundByLength[length] || [],
-                                         totalByLength[length]);
+    lengths.forEach((length) => {
+      const group = this.createWordGroup(
+        length,
+        foundByLength[length] || [],
+        totalByLength[length],
+      );
       container.appendChild(group);
     });
 
@@ -162,23 +171,20 @@ class UIManager {
     const foundByLength = {};
     const totalByLength = {};
 
-    this.gameState.possibleWords.forEach(word => {
-      if (nineLetterOnly && word.length !== 9)
-        return;
+    this.gameState.possibleWords.forEach((word) => {
+      if (nineLetterOnly && word.length !== 9) return;
       const len = word.length;
       totalByLength[len] = (totalByLength[len] || 0) + 1;
     });
 
-    this.gameState.foundWords.forEach(word => {
-      if (nineLetterOnly && word.length !== 9)
-        return;
+    this.gameState.foundWords.forEach((word) => {
+      if (nineLetterOnly && word.length !== 9) return;
       const len = word.length;
-      if (!foundByLength[len])
-        foundByLength[len] = [];
+      if (!foundByLength[len]) foundByLength[len] = [];
       foundByLength[len].push(word);
     });
 
-    return {foundByLength, totalByLength};
+    return { foundByLength, totalByLength };
   }
 
   createWordGroup(length, foundWords, totalWords) {
@@ -193,10 +199,12 @@ class UIManager {
     wordsList.className = "words-list";
 
     if (foundWords.length > 0) {
-      foundWords.sort((a, b) => a.localeCompare(b, 'sv')).forEach(word => {
-        const link = this.createWordLink(word);
-        wordsList.appendChild(link);
-      });
+      foundWords
+        .sort((a, b) => a.localeCompare(b, "sv"))
+        .forEach((word) => {
+          const link = this.createWordLink(word);
+          wordsList.appendChild(link);
+        });
     }
 
     group.appendChild(wordsList);
@@ -224,21 +232,21 @@ class UIManager {
 
   updateSummary(nineLetterOnly) {
     // Calculate the totals first
-    const totalFound = Array.from(this.gameState.foundWords)
-                           .filter(word => !nineLetterOnly || word.length === 9)
-                           .length;
+    const totalFound = Array.from(this.gameState.foundWords).filter(
+      (word) => !nineLetterOnly || word.length === 9,
+    ).length;
 
-    const totalPossible =
-        this.gameState.possibleWords
-            .filter(word => !nineLetterOnly || word.length === 9)
-            .length;
+    const totalPossible = this.gameState.possibleWords.filter(
+      (word) => !nineLetterOnly || word.length === 9,
+    ).length;
 
     // Use translator if available
-    const summaryText =
-        window.game?.translator
-            ? window.game.translator.translate(
-                  "wordsFound", {found : totalFound, total : totalPossible})
-            : `${totalFound} / ${totalPossible} ord`;
+    const summaryText = window.game?.translator
+      ? window.game.translator.translate("wordsFound", {
+          found: totalFound,
+          total: totalPossible,
+        })
+      : `${totalFound} / ${totalPossible} ord`;
 
     // Update your summary element
     document.getElementById("wordsFoundSummary").textContent = summaryText;
@@ -246,15 +254,15 @@ class UIManager {
 
   updateDateInput() {
     if (this.elements.dateInput) {
-      this.elements.dateInput.value =
-          DateUtils.formatForInput(this.gameState.currentDate);
+      this.elements.dateInput.value = DateUtils.formatForInput(
+        this.gameState.currentDate,
+      );
     }
   }
 
   updateNavigationButtons() {
     const nextBtn = document.getElementById("nextDayBtn");
-    if (!nextBtn)
-      return;
+    if (!nextBtn) return;
 
     const tomorrow = new Date(this.gameState.currentDate);
     tomorrow.setDate(tomorrow.getDate() + 1);

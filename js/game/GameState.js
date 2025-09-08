@@ -4,7 +4,7 @@ class GameState {
     this.selectedIndices = new Set();
     this.foundWords = new Set();
     this.dictionary = new Set();
-    this.possibleWords = [];    // This can be filtered based on 9-letter mode
+    this.possibleWords = []; // This can be filtered based on 9-letter mode
     this.allPossibleWords = []; // This always contains ALL possible words
     this.letters = [];
     this.middleLetter = "";
@@ -19,8 +19,7 @@ class GameState {
   }
 
   addLetter(letter, index) {
-    if (this.selectedIndices.has(index))
-      return false;
+    if (this.selectedIndices.has(index)) return false;
 
     this.selectedIndices.add(index);
     this.currentWord += letter;
@@ -29,8 +28,7 @@ class GameState {
 
   // Add this method to the GameState class
   removeLastLetter() {
-    if (this.currentWord.length === 0)
-      return false;
+    if (this.currentWord.length === 0) return false;
 
     // Get the last selected index
     const indices = Array.from(this.selectedIndices);
@@ -79,14 +77,12 @@ class GameState {
 
   getStorageKey() {
     const date = this.currentDate;
-    return `foundWords-${date.getFullYear()}-${date.getMonth() + 1}-${
-        date.getDate()}`;
+    return `foundWords-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
 
   getShuffleStorageKey() {
     const date = this.currentDate;
-    return `shuffledGrid-${date.getFullYear()}-${date.getMonth() + 1}-${
-        date.getDate()}`;
+    return `shuffledGrid-${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
 
   saveShuffledGrid() {

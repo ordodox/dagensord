@@ -1,0 +1,134 @@
+/* Help button positioning - positioned directly under achievements button */
+.help-btn {
+  top: 100px !important; /* 60px (achievements) + 40px spacing = 100px */
+}
+
+/* Help modal specific styles */
+.help-modal-content {
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: left; /* Left-align all content */
+}
+
+.help-modal-body {
+  padding: 20px;
+  text-align: left; /* Left-align all content */
+}
+
+.help-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left; /* Left-align section content */
+}
+
+.help-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.help-section h3 {
+  margin: 0 0 12px 0;
+  color: var(--primary-color);
+  font-size: 1.1em;
+  font-weight: 600;
+  text-align: left; /* Left-align headings */
+}
+
+.help-section p {
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+  color: var(--text-color);
+  text-align: left; /* Left-align paragraphs */
+}
+
+.help-section ul {
+  margin: 0;
+  padding-left: 0; /* Remove default padding */
+  list-style-type: none; /* Remove default bullets */
+  text-align: left; /* Left-align list */
+}
+
+.help-section li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+  color: var(--text-color);
+  text-align: left; /* Left-align list items */
+  position: relative;
+  padding-left: 20px; /* Add space for custom bullet */
+}
+
+.help-section li::before {
+  content: "•"; /* Custom bullet */
+  color: var(--primary-color);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.help-section li strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.help-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.help-close:hover {
+  background: var(--border-color);
+}
+
+/* Responsive adjustments for help */
+@media (max-width: 768px) {
+  .help-btn {
+    top: 85px !important; /* 50px (achievements mobile) + 35px spacing = 85px */
+  }
+
+  .help-modal-content {
+    margin: 10px;
+    max-height: 90vh;
+  }
+
+  .help-modal-body {
+    padding: 15px;
+  }
+
+  .help-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+
+  .help-section h3 {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .help-btn {
+    top: 85px !important; /* Same as tablet since achievements is also 50px */
+  }
+
+  .help-modal-body {
+    padding: 12px;
+  }
+
+  .help-section {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+}

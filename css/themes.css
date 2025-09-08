@@ -1,28 +1,28 @@
 /* === CSS Variables for Theme Management === */
 :root {
-    --bg-color: #fff;
-    --text-color: #222;
-    --grid-bg: #eee;
-    --grid-border: #ccc;
-    --grid-used: #bbb;
-    --grid-used-text: #555;
-    --center-bg: #ffd966;
-    --center-text: #222;
-    --message-color: #000;
-    --found-words-color: #444;
+  --bg-color: #fff;
+  --text-color: #222;
+  --grid-bg: #eee;
+  --grid-border: #ccc;
+  --grid-used: #bbb;
+  --grid-used-text: #555;
+  --center-bg: #ffd966;
+  --center-text: #222;
+  --message-color: #000;
+  --found-words-color: #444;
 }
 
 /* Dark mode using both selectors for compatibility */
 [data-theme="dark"],
 body.dark-mode {
-    --bg-color: #121212;
-    --text-color: #f0f0f0;
-    --grid-bg: #333;
-    --grid-border: #666;
-    --grid-used: #555;
-    --grid-used-text: #fff;
-    --center-bg: #ffaa00;
-    --center-text: #000;
-    --message-color: #fff;
-    --found-words-color: #ccc;
+  --bg-color: #121212;
+  --text-color: #f0f0f0;
+  --grid-bg: #333;
+  --grid-border: #666;
+  --grid-used: #555;
+  --grid-used-text: #fff;
+  --center-bg: #ffaa00;
+  --center-text: #000;
+  --message-color: #fff;
+  --found-words-color: #ccc;
 }

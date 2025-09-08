@@ -1,340 +1,347 @@
 /* === Base Styles === */
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    text-align: center;
-    padding: 20px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  text-align: center;
+  padding: 20px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .page-title {
-    margin: 0 0 10px 0;
-    font-size: 2rem;
-    font-weight: 600;
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-
 .logo {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .logo .highlight {
-    background-color: #ffaa00;
-    padding: 1px 3px;
-    border-radius: 3px;
+  background-color: #ffaa00;
+  padding: 1px 3px;
+  border-radius: 3px;
 }
 
 /* Light mode - black text */
 [data-theme="light"] .logo {
-    color: black;
+  color: black;
 }
 
 [data-theme="light"] .logo .highlight {
-    color: black;
+  color: black;
 }
 
 /* Dark mode - white text */
 [data-theme="dark"] .logo {
-    color: white;
+  color: white;
 }
 
 [data-theme="dark"] .logo .highlight {
-    color: black; /* Keep highlight text black for contrast with yellow background */
+  color: black; /* Keep highlight text black for contrast with yellow background */
 }
 
-
 .words-summary {
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
 }
 
 .game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .current-word {
-    font-size: 1.5rem;
-    font-weight: 600;
-    height: 2rem; /* Fixed height to prevent jumping */
-    margin: 20px 0 10px 0;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  height: 2rem; /* Fixed height to prevent jumping */
+  margin: 20px 0 10px 0;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .message {
-    min-height: 1.5rem;
-    font-weight: bold;
-    color: var(--message-color);
-    margin-bottom: 15px;
-    display: block;
-    line-height: 1.5rem;
-    transition: opacity 0.2s ease; /* Smooth fade */
+  min-height: 1.5rem;
+  font-weight: bold;
+  color: var(--message-color);
+  margin-bottom: 15px;
+  display: block;
+  line-height: 1.5rem;
+  transition: opacity 0.2s ease; /* Smooth fade */
 }
 
 .mode-selector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    margin: 10px 0;
-    max-width: 400px; /* Match new content width */
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  margin: 10px 0;
+  max-width: 400px; /* Match new content width */
+  width: 100%;
 }
 
 .toggle-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
 }
 
 .toggle-label input[type="checkbox"] {
-    display: none; /* Hide the default checkbox */
+  display: none; /* Hide the default checkbox */
 }
 
 .toggle-switch {
-    position: relative;
-    width: 44px;
-    height: 22px;
-    background-color: var(--grid-border);
-    border-radius: 22px;
-    transition: background-color 0.3s ease;
-    border: 2px solid var(--grid-border);
-    flex-shrink: 0; /* Prevent the toggle from shrinking */
+  position: relative;
+  width: 44px;
+  height: 22px;
+  background-color: var(--grid-border);
+  border-radius: 22px;
+  transition: background-color 0.3s ease;
+  border: 2px solid var(--grid-border);
+  flex-shrink: 0; /* Prevent the toggle from shrinking */
 }
 
 .toggle-switch::after {
-    content: '';
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: 16px;
-    height: 16px;
-    background-color: var(--bg-color);
-    border-radius: 50%;
-    transition: transform 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--bg-color);
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .toggle-label input[type="checkbox"]:checked + .toggle-switch {
-    background-color: var(--center-bg);
-    border-color: var(--center-bg);
+  background-color: var(--center-bg);
+  border-color: var(--center-bg);
 }
 
 .toggle-label input[type="checkbox"]:checked + .toggle-switch::after {
-    transform: translateX(22px);
+  transform: translateX(22px);
 }
 
 .toggle-text {
-    font-size: 0.85rem;
-    color: var(--text-color);
-    text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  text-align: center;
 }
 
 /* NO hover effects at all - only active for press feedback */
 .toggle-switch:active {
-    opacity: 0.8;
-    transition: opacity 0.1s ease;
+  opacity: 0.8;
+  transition: opacity 0.1s ease;
 }
 
 /* Focus style for accessibility */
 .toggle-label input[type="checkbox"]:focus-visible + .toggle-switch {
-    outline: 2px solid var(--center-bg);
-    outline-offset: 2px;
+  outline: 2px solid var(--center-bg);
+  outline-offset: 2px;
 }
 
 .found-words-container {
-    max-width: 400px; /* Match the implied content width from button positioning */
-    width: 100%;
-    margin: 20px auto;
-    text-align: left;
-    overflow-wrap: break-word;
+  max-width: 400px; /* Match the implied content width from button positioning */
+  width: 100%;
+  margin: 20px auto;
+  text-align: left;
+  overflow-wrap: break-word;
 }
 
 .word-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .word-group h3 {
-    margin: 12px 0 6px;
-    font-weight: bold;
-    color: var(--text-color);
+  margin: 12px 0 6px;
+  font-weight: bold;
+  color: var(--text-color);
 }
 
 .words-list {
-    margin: 0 0 8px;
-    font-size: 14px;
-    line-height: 1.4;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 12px; /* vertical gap 4px, horizontal gap 12px */
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px; /* vertical gap 4px, horizontal gap 12px */
 }
 
 .word-link {
-    color: var(--text-color);
-    text-decoration: none;
-    padding: 2px 6px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-    display: inline-block;
-    white-space: nowrap;
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .word-link:hover {
-    background-color: var(--grid-bg);
-    text-decoration: underline;
+  background-color: var(--grid-bg);
+  text-decoration: underline;
 }
 
 .remaining-count {
-    font-style: italic;
-    color: var(--found-words-color);
-    margin: 4px 0;
+  font-style: italic;
+  color: var(--found-words-color);
+  margin: 4px 0;
 }
 
 .date-navigation {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .nav-btn {
-    padding: 8px 16px;
-    border: 2px solid var(--grid-border);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s ease;
+  padding: 8px 16px;
+  border: 2px solid var(--grid-border);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
 .nav-btn:hover:not(:disabled) {
-    background-color: var(--grid-bg);
-    transform: translateY(-2px);
+  background-color: var(--grid-bg);
+  transform: translateY(-2px);
 }
 
 .nav-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    transform: none;
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .date-input {
-    padding: 8px 12px;
-    border: 2px solid var(--grid-border);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border-radius: 6px;
-    font-size: 14px;
+  padding: 8px 12px;
+  border: 2px solid var(--grid-border);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 6px;
+  font-size: 14px;
 }
 
 /* === Animations === */
 @keyframes celebration {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .celebrating {
-    animation: celebration 0.5s ease-in-out;
+  animation: celebration 0.5s ease-in-out;
 }
 
 /* === Focus Styles === */
 .control-btn:focus-visible,
 .nav-btn:focus-visible,
 .date-input:focus-visible {
-    outline: 2px solid var(--center-bg);
-    outline-offset: 2px;
+  outline: 2px solid var(--center-bg);
+  outline-offset: 2px;
 }
 
 /* === Responsive Design === */
 @media (max-width: 768px) {
-    .game-container {
-        gap: 15px;
-    }
+  .game-container {
+    gap: 15px;
+  }
 
-    .controls {
-        width: 170px; /* Match mobile grid width: 3 * 50px + 2 * 10px */
-    }
+  .controls {
+    width: 170px; /* Match mobile grid width: 3 * 50px + 2 * 10px */
+  }
 
-    .date-navigation {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .date-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .letters-grid {
-        grid-template-columns: repeat(3, 50px);
-        grid-template-rows: repeat(3, 50px);
-    }
+  .letters-grid {
+    grid-template-columns: repeat(3, 50px);
+    grid-template-rows: repeat(3, 50px);
+  }
 
-    .letter-cell {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-    }
+  .letter-cell {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
 
-    .mode-selector {
-        max-width: 300px; /* Match mobile content width */
-    }
-    
-    .toggle-text {
-        font-size: 0.75rem; /* Even smaller text on mobile */
-    }
-    
-    .toggle-switch {
-        width: 40px;
-        height: 20px;
-    }
-    
-    .toggle-switch::after {
-        width: 14px;
-        height: 14px;
-    }
-    
-    .toggle-label input[type="checkbox"]:checked + .toggle-switch::after {
-        transform: translateX(20px);
-    }
+  .mode-selector {
+    max-width: 300px; /* Match mobile content width */
+  }
 
-    .found-words-container {
-        max-width: 300px; /* Match mobile content width */
-    }
+  .toggle-text {
+    font-size: 0.75rem; /* Even smaller text on mobile */
+  }
 
-    .words-list {
-        gap: 3px 8px; /* Smaller gaps on mobile */
-    }
+  .toggle-switch {
+    width: 40px;
+    height: 20px;
+  }
+
+  .toggle-switch::after {
+    width: 14px;
+    height: 14px;
+  }
+
+  .toggle-label input[type="checkbox"]:checked + .toggle-switch::after {
+    transform: translateX(20px);
+  }
+
+  .found-words-container {
+    max-width: 300px; /* Match mobile content width */
+  }
+
+  .words-list {
+    gap: 3px 8px; /* Smaller gaps on mobile */
+  }
 }
 
 /* Desktop: horizontal layout for toggle and ADD BACK hover only for desktop */
 @media (min-width: 769px) {
-    .toggle-label {
-        flex-direction: row;
-        gap: 10px;
-    }
-    
-    /* Only add hover on desktop screens */
-    .toggle-switch:hover {
-        opacity: 0.8;
-    }
+  .toggle-label {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  /* Only add hover on desktop screens */
+  .toggle-switch:hover {
+    opacity: 0.8;
+  }
 }

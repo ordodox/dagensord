@@ -12,8 +12,11 @@ class WordValidator {
     }
 
     if (!word.includes(this.gameState.middleLetter)) {
-      errors.push(this.getTranslation("messages.wordMissingCenter",
-                                      {letter : this.gameState.middleLetter}));
+      errors.push(
+        this.getTranslation("messages.wordMissingCenter", {
+          letter: this.gameState.middleLetter,
+        }),
+      );
     }
 
     if (!this.dictionary.contains(word)) {
@@ -24,7 +27,7 @@ class WordValidator {
       errors.push(this.getTranslation("messages.wordAlreadyFound"));
     }
 
-    return {isValid : errors.length === 0, errors};
+    return { isValid: errors.length === 0, errors };
   }
 
   getTranslation(key, params = {}) {
@@ -53,22 +56,20 @@ class WordValidator {
 
   getLetterCounts() {
     const counts = {};
-    this.gameState.letters.forEach(
-        letter => { counts[letter] = (counts[letter] || 0) + 1; });
+    this.gameState.letters.forEach((letter) => {
+      counts[letter] = (counts[letter] || 0) + 1;
+    });
     return counts;
   }
 
   isWordValid(word, letterCounts, nineLetterOnly) {
-    if (word.length < 3)
-      return false;
-    if (!word.includes(this.gameState.middleLetter))
-      return false;
+    if (word.length < 3) return false;
+    if (!word.includes(this.gameState.middleLetter)) return false;
 
     if (nineLetterOnly) {
-      if (word.length !== 9)
-        return false;
-      const wordSorted = word.split('').sort().join('');
-      const gridSorted = this.gameState.letters.slice().sort().join('');
+      if (word.length !== 9) return false;
+      const wordSorted = word.split("").sort().join("");
+      const gridSorted = this.gameState.letters.slice().sort().join("");
       return wordSorted === gridSorted;
     }
 

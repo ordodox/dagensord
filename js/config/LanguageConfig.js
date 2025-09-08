@@ -1,11 +1,11 @@
 // Language configuration - change this to localize the entire game
 const LanguageConfig = {
   // Current language code
-  language : 'sv',
+  language: "sv",
 
   // Dictionary file to load
-  dictionaryFile : 'data/dictionaries/sv.txt',
+  dictionaryFile: "data/dictionaries/sv.txt",
 
   // Translation file to load
-  translationFile : 'data/locales/sv.json'
+  translationFile: "data/locales/sv.json",
 };

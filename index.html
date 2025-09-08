@@ -1,130 +1,185 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sv">
-<head>
-    
-<!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNSYY19RNL"></script>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-ZNSYY19RNL"
+    ></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-    gtag('config', 'G-ZNSYY19RNL');
+      gtag("config", "G-ZNSYY19RNL");
     </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ordagrann</title>
-        
-    <!-- Just the basic favicon stuff -->
-    <link rel="icon" type="image/x-icon" href="img/icons/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/icons/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-touch-icon.png">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/grid.css">
-    <link rel="stylesheet" href="css/controls.css">
-    <link rel="stylesheet" href="css/themes.css">
-    <link rel="stylesheet" href="css/achievements.css">
-    <link rel="stylesheet" href="css/help.css">
 
-</head>
-<body data-theme="light">
+    <!-- Just the basic favicon stuff -->
+    <link rel="icon" type="image/x-icon" href="img/icons/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="img/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="img/icons/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="img/icons/apple-touch-icon.png"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/grid.css" />
+    <link rel="stylesheet" href="css/controls.css" />
+    <link rel="stylesheet" href="css/themes.css" />
+    <link rel="stylesheet" href="css/achievements.css" />
+    <link rel="stylesheet" href="css/help.css" />
+  </head>
+  <body data-theme="light">
     <h1 class="page-title logo">Orda<span class="highlight">g</span>rann.</h1>
-    
+
     <div class="words-summary" id="wordsFoundSummary">0 / 0 ord</div>
-    
+
     <div class="message" id="message"></div>
-    
+
     <!-- Floating theme button -->
-    <button class="floating-theme-btn" id="toggleThemeBtn" title="Växla tema" aria-label="Växla tema">
-        <img id="themeIcon" src="img/ui/light.png" alt="Tema">
+    <button
+      class="floating-theme-btn"
+      id="toggleThemeBtn"
+      title="Växla tema"
+      aria-label="Växla tema"
+    >
+      <img id="themeIcon" src="img/ui/light.png" alt="Tema" />
     </button>
-    
+
     <!-- Floating achievements button (under theme button) -->
-    <button class="floating-theme-btn achievements-btn" id="achievements-btn" title="Prestationer" aria-label="Prestationer">
-        <img id="achievementIcon" src="img/ui/achievement_light.png" alt="Prestationer">
+    <button
+      class="floating-theme-btn achievements-btn"
+      id="achievements-btn"
+      title="Prestationer"
+      aria-label="Prestationer"
+    >
+      <img
+        id="achievementIcon"
+        src="img/ui/achievement_light.png"
+        alt="Prestationer"
+      />
     </button>
-    
+
     <!-- Floating help button (under achievements button) -->
-    <button class="floating-theme-btn help-btn" id="help-btn" title="Hjälp" aria-label="Hjälp">
-        <img id="helpIcon" src="img/ui/help_light.png" alt="Hjälp">
+    <button
+      class="floating-theme-btn help-btn"
+      id="help-btn"
+      title="Hjälp"
+      aria-label="Hjälp"
+    >
+      <img id="helpIcon" src="img/ui/help_light.png" alt="Hjälp" />
     </button>
-    
+
     <div class="game-container">
-        <div class="letters-grid" id="grid"></div>
-        
-        <div class="controls">
-            <button class="control-btn" id="submitWord" title="Skicka ord (Enter)" aria-label="Skicka ord">
-                <img id="submitIcon" src="img/ui/submit_light.png" alt="Skicka">
-            </button>
-            <button class="control-btn" id="eraseWord" title="Radera sista bokstav" aria-label="Radera sista bokstav">
-                <img id="eraseIcon" src="img/ui/erase_light.png" alt="Radera">
-            </button>
-            <button class="control-btn" id="clearWord" title="Rensa ord (Backspace)" aria-label="Rensa ord">
-                <img id="resetIcon" src="img/ui/reset_light.png" alt="Rensa">
-            </button>
-            <button class="control-btn" id="shuffleLetters" title="Blanda bokstäver (Mellanslag)" aria-label="Blanda bokstäver">
-                <img id="shuffleIcon" src="img/ui/shuffle_light.png" alt="Blanda">
-            </button>
-        </div>
+      <div class="letters-grid" id="grid"></div>
+
+      <div class="controls">
+        <button
+          class="control-btn"
+          id="submitWord"
+          title="Skicka ord (Enter)"
+          aria-label="Skicka ord"
+        >
+          <img id="submitIcon" src="img/ui/submit_light.png" alt="Skicka" />
+        </button>
+        <button
+          class="control-btn"
+          id="eraseWord"
+          title="Radera sista bokstav"
+          aria-label="Radera sista bokstav"
+        >
+          <img id="eraseIcon" src="img/ui/erase_light.png" alt="Radera" />
+        </button>
+        <button
+          class="control-btn"
+          id="clearWord"
+          title="Rensa ord (Backspace)"
+          aria-label="Rensa ord"
+        >
+          <img id="resetIcon" src="img/ui/reset_light.png" alt="Rensa" />
+        </button>
+        <button
+          class="control-btn"
+          id="shuffleLetters"
+          title="Blanda bokstäver (Mellanslag)"
+          aria-label="Blanda bokstäver"
+        >
+          <img id="shuffleIcon" src="img/ui/shuffle_light.png" alt="Blanda" />
+        </button>
+      </div>
     </div>
-    
+
     <div class="current-word" id="currentWord"></div>
-   <div class="mode-selector">
-    <label for="nineLetterMode" class="toggle-label">
-        <input type="checkbox" id="nineLetterMode">
+    <div class="mode-selector">
+      <label for="nineLetterMode" class="toggle-label">
+        <input type="checkbox" id="nineLetterMode" />
         <span class="toggle-switch"></span>
         <span class="toggle-text">Endast 9-bokstäversord</span>
-    </label>
-</div> 
+      </label>
+    </div>
 
     <div class="found-words-container" id="foundWords"></div>
-    
+
     <div class="date-navigation">
-        <button class="nav-btn" id="prevDayBtn">← Föregående dag</button>
-        <input type="date" class="date-input" id="selectDate" max="">
-        <button class="nav-btn" id="nextDayBtn">Nästa dag →</button>
+      <button class="nav-btn" id="prevDayBtn">← Föregående dag</button>
+      <input type="date" class="date-input" id="selectDate" max="" />
+      <button class="nav-btn" id="nextDayBtn">Nästa dag →</button>
     </div>
 
     <!-- Achievement modal -->
     <div id="achievement-modal" class="achievement-modal hidden">
-        <div class="achievement-modal-content">
-            <div class="achievement-modal-header">
-                <span class="achievement-close">&times;</span>
-                <h2>🏆 Prestationer</h2>
-            </div>
-            <div id="achievements-list" class="achievements-list">
-                <!-- Achievements will be populated here -->
-            </div>
+      <div class="achievement-modal-content">
+        <div class="achievement-modal-header">
+          <span class="achievement-close">&times;</span>
+          <h2>🏆 Prestationer</h2>
         </div>
+        <div id="achievements-list" class="achievements-list">
+          <!-- Achievements will be populated here -->
+        </div>
+      </div>
     </div>
 
-
-<!-- Help modal -->
-<div id="help-modal" class="achievement-modal hidden">
-  <div class="achievement-modal-content help-modal-content">
-    <div class="achievement-modal-header">
-      <span class="help-close">&times;</span>
-      <h2 id="help-title">❓ Hur man spelar</h2>
+    <!-- Help modal -->
+    <div id="help-modal" class="achievement-modal hidden">
+      <div class="achievement-modal-content help-modal-content">
+        <div class="achievement-modal-header">
+          <span class="help-close">&times;</span>
+          <h2 id="help-title">❓ Hur man spelar</h2>
+        </div>
+        <div class="help-modal-body" id="help-content">
+          <!-- Content will be populated by JavaScript -->
+        </div>
+      </div>
     </div>
-    <div class="help-modal-body" id="help-content">
-      <!-- Content will be populated by JavaScript -->
-    </div>
-  </div>
-</div>
 
     <!-- Achievement notification -->
     <div id="achievement-notification" class="achievement-notification hidden">
-        <div class="achievement-notification-content">
-            <div class="achievement-icon"></div>
-            <div class="achievement-text">
-                <div class="achievement-title"></div>
-                <div class="achievement-description"></div>
-            </div>
+      <div class="achievement-notification-content">
+        <div class="achievement-icon"></div>
+        <div class="achievement-text">
+          <div class="achievement-title"></div>
+          <div class="achievement-description"></div>
         </div>
+      </div>
     </div>
 
     <!-- JavaScript Files -->
@@ -142,5 +197,5 @@
     <script src="js/managers/ModalManager.js"></script>
     <script src="js/managers/EventManager.js"></script>
     <script src="js/main.js"></script>
-</body>
+  </body>
 </html>

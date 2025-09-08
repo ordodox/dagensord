@@ -1,116 +1,118 @@
 /* === Control Button Styles === */
 .controls {
-    display: flex;
-    flex-direction: row;
-    gap: 10px; /* Match grid gap */
-    width: 194px; /* 4 * 44px + 3 * 10px = 176px + 18px = 194px */
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* Match grid gap */
+  width: 194px; /* 4 * 44px + 3 * 10px = 176px + 18px = 194px */
+  justify-content: center;
 }
 
 .control-btn {
-    border: none;
-    outline: none;
-    background: transparent;
-    padding: 6px;
-    cursor: pointer;
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 6px;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .control-btn:hover {
-    background-color: var(--grid-bg);
-    transform: scale(1.1);
+  background-color: var(--grid-bg);
+  transform: scale(1.1);
 }
 
 .control-btn img {
-    width: 32px;
-    height: 32px;
-    display: block;
-    user-select: none;
-    pointer-events: none;
+  width: 32px;
+  height: 32px;
+  display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
 /* Floating theme button */
 .floating-theme-btn {
-    position: fixed;
-    top: 20px;
-    right: calc(50% - 220px); /* Adjusted for wider content: was 200px, now 220px */
-    width: 32px;
-    height: 32px;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 1000;
-    padding: 4px;
+  position: fixed;
+  top: 20px;
+  right: calc(
+    50% - 220px
+  ); /* Adjusted for wider content: was 200px, now 220px */
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  padding: 4px;
 }
 
 .floating-theme-btn:hover {
-    transform: scale(1.1);
-    background-color: var(--grid-bg);
+  transform: scale(1.1);
+  background-color: var(--grid-bg);
 }
 
 .floating-theme-btn img {
-    width: 24px;
-    height: 24px;
-    display: block;
-    user-select: none;
-    pointer-events: none;
+  width: 24px;
+  height: 24px;
+  display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
 .floating-theme-btn:focus-visible {
-    outline: 2px solid var(--center-bg);
-    outline-offset: 2px;
+  outline: 2px solid var(--center-bg);
+  outline-offset: 2px;
 }
 
 /* Floating achievements button */
 .floating-theme-btn.achievements-btn {
-    top: 60px; /* Position it below the theme button */
-    right: calc(50% - 220px); /* Same positioning calculation as theme button */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  top: 60px; /* Position it below the theme button */
+  right: calc(50% - 220px); /* Same positioning calculation as theme button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .floating-theme-btn.achievements-btn img {
-    width: 24px;
-    height: 24px;
-    display: block;
-    user-select: none;
-    pointer-events: none;
+  width: 24px;
+  height: 24px;
+  display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-    .floating-theme-btn {
-        top: 15px;
-        right: 15px; /* Keep mobile positioning at screen edge */
-        width: 28px;
-        height: 28px;
-        padding: 2px;
-    }
+  .floating-theme-btn {
+    top: 15px;
+    right: 15px; /* Keep mobile positioning at screen edge */
+    width: 28px;
+    height: 28px;
+    padding: 2px;
+  }
 
-    .floating-theme-btn img {
-        width: 20px;
-        height: 20px;
-    }
+  .floating-theme-btn img {
+    width: 20px;
+    height: 20px;
+  }
 
-    .floating-theme-btn.achievements-btn {
-        top: 50px; /* Position below theme button on mobile */
-        right: 15px; /* Same as mobile theme button */
-    }
+  .floating-theme-btn.achievements-btn {
+    top: 50px; /* Position below theme button on mobile */
+    right: 15px; /* Same as mobile theme button */
+  }
 
-    .floating-theme-btn.achievements-btn img {
-        width: 20px;
-        height: 20px;
-    }
+  .floating-theme-btn.achievements-btn img {
+    width: 20px;
+    height: 20px;
+  }
 
-    .controls {
-        width: 174px; /* 4 * 44px + 3 * 8px = 176px + 24px = 200px, but reduce gap to 8px = 174px */
-        gap: 8px; /* Slightly smaller gap for mobile */
-    }
+  .controls {
+    width: 174px; /* 4 * 44px + 3 * 8px = 176px + 24px = 200px, but reduce gap to 8px = 174px */
+    gap: 8px; /* Slightly smaller gap for mobile */
+  }
 }

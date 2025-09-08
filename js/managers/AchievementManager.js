@@ -9,7 +9,7 @@ class AchievementManager {
   async init() {
     this.definitions = await AchievementLoader.loadDefinitions();
     if (!this.definitions) {
-      console.error('Failed to load achievement definitions');
+      console.error("Failed to load achievement definitions");
       return false;
     }
 
@@ -18,25 +18,28 @@ class AchievementManager {
   }
 
   refreshAchievements() {
-    if (!this.definitions)
-      return;
+    if (!this.definitions) return;
 
     this.achievements = AchievementLoader.processDateAchievements(
-        this.definitions, this.gameState);
+      this.definitions,
+      this.gameState,
+    );
 
     const stats = {
-      totalNineLetterWords : this.getTotalNineLetterWords(),
-      totalAllWordsCompleted : this.getTotalAllWordsCompleted(),
-      totalWordsFound : this.getTotalWordsFound(),
-      currentStreak : this.getCurrentStreak()
+      totalNineLetterWords: this.getTotalNineLetterWords(),
+      totalAllWordsCompleted: this.getTotalAllWordsCompleted(),
+      totalWordsFound: this.getTotalWordsFound(),
+      currentStreak: this.getCurrentStreak(),
     };
 
-    this.globalAchievements =
-        AchievementLoader.processGlobalAchievements(this.definitions, stats);
+    this.globalAchievements = AchievementLoader.processGlobalAchievements(
+      this.definitions,
+      stats,
+    );
   }
 
   getStorageKey(achievementId) {
-    const dateStr = this.gameState.currentDate.toISOString().split('T')[0];
+    const dateStr = this.gameState.currentDate.toISOString().split("T")[0];
     return `achievement_${achievementId}_${dateStr}`;
   }
 
@@ -67,7 +70,7 @@ class AchievementManager {
   }
 
   trackPlaySession() {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     const key = `playSession_${today}`;
 
     if (!localStorage.getItem(key)) {
@@ -80,8 +83,8 @@ class AchievementManager {
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.startsWith('playSession_')) {
-        const dateStr = key.replace('playSession_', '');
+      if (key && key.startsWith("playSession_")) {
+        const dateStr = key.replace("playSession_", "");
         dates.push(dateStr);
       }
     }
@@ -91,15 +94,14 @@ class AchievementManager {
 
   getCurrentStreak() {
     const playedDates = this.getActualPlayDates();
-    if (playedDates.length === 0)
-      return 0;
+    if (playedDates.length === 0) return 0;
 
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     let currentDate = new Date(today);
     let streak = 0;
 
     while (true) {
-      const dateStr = currentDate.toISOString().split('T')[0];
+      const dateStr = currentDate.toISOString().split("T")[0];
 
       if (playedDates.includes(dateStr)) {
         streak++;
@@ -112,16 +114,18 @@ class AchievementManager {
     return streak;
   }
 
-  checkSevenDayStreak() { return this.getCurrentStreak() >= 7; }
+  checkSevenDayStreak() {
+    return this.getCurrentStreak() >= 7;
+  }
 
   getTotalNineLetterWords() {
     let total = 0;
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.startsWith('foundWords-')) {
-        const foundWords = JSON.parse(localStorage.getItem(key) || '[]');
-        total += foundWords.filter(word => word.length === 9).length;
+      if (key && key.startsWith("foundWords-")) {
+        const foundWords = JSON.parse(localStorage.getItem(key) || "[]");
+        total += foundWords.filter((word) => word.length === 9).length;
       }
     }
 
@@ -133,7 +137,7 @@ class AchievementManager {
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.startsWith('achievement_all_words_')) {
+      if (key && key.startsWith("achievement_all_words_")) {
         total++;
       }
     }
@@ -146,8 +150,8 @@ class AchievementManager {
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.startsWith('foundWords-')) {
-        const foundWords = JSON.parse(localStorage.getItem(key) || '[]');
+      if (key && key.startsWith("foundWords-")) {
+        const foundWords = JSON.parse(localStorage.getItem(key) || "[]");
         total += foundWords.length;
       }
     }
@@ -160,31 +164,36 @@ class AchievementManager {
 
     this.trackPlaySession();
 
-    if (this.isNightTime() && !this.isGlobalUnlocked('night_owl')) {
-      this.unlockGlobal('night_owl');
-      const achievement =
-          this.globalAchievements.find(a => a.id === 'night_owl');
+    if (this.isNightTime() && !this.isGlobalUnlocked("night_owl")) {
+      this.unlockGlobal("night_owl");
+      const achievement = this.globalAchievements.find(
+        (a) => a.id === "night_owl",
+      );
       if (achievement) {
         achievement.unlocked = true;
         newlyUnlocked.push(achievement);
       }
     }
 
-    if (this.checkSevenDayStreak() &&
-        !this.isGlobalUnlocked('seven_day_streak')) {
-      this.unlockGlobal('seven_day_streak');
-      const achievement =
-          this.globalAchievements.find(a => a.id === 'seven_day_streak');
+    if (
+      this.checkSevenDayStreak() &&
+      !this.isGlobalUnlocked("seven_day_streak")
+    ) {
+      this.unlockGlobal("seven_day_streak");
+      const achievement = this.globalAchievements.find(
+        (a) => a.id === "seven_day_streak",
+      );
       if (achievement) {
         achievement.unlocked = true;
         newlyUnlocked.push(achievement);
       }
     }
 
-    if (newWord.length === 9 && !this.isUnlocked('nine_letter_word')) {
-      this.unlock('nine_letter_word');
-      const achievement =
-          this.achievements.find(a => a.id === 'nine_letter_word');
+    if (newWord.length === 9 && !this.isUnlocked("nine_letter_word")) {
+      this.unlock("nine_letter_word");
+      const achievement = this.achievements.find(
+        (a) => a.id === "nine_letter_word",
+      );
       if (achievement) {
         achievement.unlocked = true;
         newlyUnlocked.push(achievement);
@@ -195,10 +204,13 @@ class AchievementManager {
     const foundWordsCount = this.gameState.foundWords.size;
 
     let allWordsJustCompleted = false;
-    if (foundWordsCount === totalPossibleWordsCount &&
-        totalPossibleWordsCount > 0 && !this.isUnlocked('all_words')) {
-      this.unlock('all_words');
-      const achievement = this.achievements.find(a => a.id === 'all_words');
+    if (
+      foundWordsCount === totalPossibleWordsCount &&
+      totalPossibleWordsCount > 0 &&
+      !this.isUnlocked("all_words")
+    ) {
+      this.unlock("all_words");
+      const achievement = this.achievements.find((a) => a.id === "all_words");
       if (achievement) {
         achievement.unlocked = true;
         newlyUnlocked.push(achievement);
@@ -208,9 +220,11 @@ class AchievementManager {
 
     // Check total words achievement (Millennial)
     const totalWordsFound = this.getTotalWordsFound();
-    if (totalWordsFound >= 1000 && !this.isGlobalUnlocked('total_words_1000')) {
-      this.unlockGlobal('total_words_1000');
-      const achievement = this.globalAchievements.find(a => a.id === 'total_words_1000');
+    if (totalWordsFound >= 1000 && !this.isGlobalUnlocked("total_words_1000")) {
+      this.unlockGlobal("total_words_1000");
+      const achievement = this.globalAchievements.find(
+        (a) => a.id === "total_words_1000",
+      );
       if (achievement) {
         achievement.unlocked = true;
         newlyUnlocked.push(achievement);
@@ -222,10 +236,12 @@ class AchievementManager {
     if (newWord.length === 9) {
       const totalNineLetterWords = this.getTotalNineLetterWords();
 
-      this.globalAchievements.forEach(achievement => {
-        if (achievement.type === 'nine_letter' &&
-            totalNineLetterWords >= achievement.target &&
-            !this.isGlobalUnlocked(achievement.id)) {
+      this.globalAchievements.forEach((achievement) => {
+        if (
+          achievement.type === "nine_letter" &&
+          totalNineLetterWords >= achievement.target &&
+          !this.isGlobalUnlocked(achievement.id)
+        ) {
           this.unlockGlobal(achievement.id);
           achievement.unlocked = true;
           newlyUnlocked.push(achievement);
@@ -236,10 +252,12 @@ class AchievementManager {
     if (allWordsJustCompleted) {
       const totalAllWordsCompleted = this.getTotalAllWordsCompleted();
 
-      this.globalAchievements.forEach(achievement => {
-        if (achievement.type === 'all_words' &&
-            totalAllWordsCompleted >= achievement.target &&
-            !this.isGlobalUnlocked(achievement.id)) {
+      this.globalAchievements.forEach((achievement) => {
+        if (
+          achievement.type === "all_words" &&
+          totalAllWordsCompleted >= achievement.target &&
+          !this.isGlobalUnlocked(achievement.id)
+        ) {
           this.unlockGlobal(achievement.id);
           achievement.unlocked = true;
           newlyUnlocked.push(achievement);
@@ -249,10 +267,12 @@ class AchievementManager {
 
     // Check total words achievements on any word found
     const totalWords = this.getTotalWordsFound();
-    this.globalAchievements.forEach(achievement => {
-      if (achievement.type === 'total_words' &&
-          totalWords >= achievement.target &&
-          !this.isGlobalUnlocked(achievement.id)) {
+    this.globalAchievements.forEach((achievement) => {
+      if (
+        achievement.type === "total_words" &&
+        totalWords >= achievement.target &&
+        !this.isGlobalUnlocked(achievement.id)
+      ) {
         this.unlockGlobal(achievement.id);
         achievement.unlocked = true;
         newlyUnlocked.push(achievement);
@@ -265,40 +285,43 @@ class AchievementManager {
   getAllAchievements() {
     this.refreshAchievements();
 
-    this.achievements.forEach(achievement => {
+    this.achievements.forEach((achievement) => {
       achievement.unlocked = this.isUnlocked(achievement.id);
     });
 
-    this.globalAchievements.forEach(achievement => {
+    this.globalAchievements.forEach((achievement) => {
       achievement.unlocked = this.isGlobalUnlocked(achievement.id);
     });
 
-    return [...this.achievements, ...this.globalAchievements ];
+    return [...this.achievements, ...this.globalAchievements];
   }
 
   getUnlockedAchievements() {
     const unlocked = [];
 
     // Date-specific achievements
-    this.achievements.forEach(achievement => {
+    this.achievements.forEach((achievement) => {
       if (this.isUnlocked(achievement.id)) {
         const key = this.getStorageKey(achievement.id);
         const timestamp = localStorage.getItem(key);
-        unlocked.push({id : achievement.id, unlockedAt : timestamp});
+        unlocked.push({ id: achievement.id, unlockedAt: timestamp });
       }
     });
 
     // Global achievements
-    this.globalAchievements.forEach(achievement => {
+    this.globalAchievements.forEach((achievement) => {
       if (this.isGlobalUnlocked(achievement.id)) {
-        const timestamp =
-            localStorage.getItem(`global_achievement_${achievement.id}`);
-        unlocked.push({id : achievement.id, unlockedAt : timestamp});
+        const timestamp = localStorage.getItem(
+          `global_achievement_${achievement.id}`,
+        );
+        unlocked.push({ id: achievement.id, unlockedAt: timestamp });
       }
     });
 
     return unlocked;
   }
 
-  refreshForCurrentDate() { this.refreshAchievements(); }
+  refreshForCurrentDate() {
+    this.refreshAchievements();
+  }
 }

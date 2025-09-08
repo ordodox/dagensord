@@ -26,7 +26,8 @@ class WordGameController {
     const dictionaryLoaded = await this.dictionary.load();
     if (!dictionaryLoaded) {
       this.ui.showMessage(
-          this.translator.translate("messages.dictionaryLoadError"));
+        this.translator.translate("messages.dictionaryLoadError"),
+      );
       return;
     }
 
@@ -42,12 +43,16 @@ class WordGameController {
     }
 
     // Initialize managers
-    this.modalManager = new ModalManager(this.gameState, this.achievementManager, this.translator);
+    this.modalManager = new ModalManager(
+      this.gameState,
+      this.achievementManager,
+      this.translator,
+    );
     this.eventManager = new EventManager(this);
 
     this.setupInitialDate();
     this.setupGame();
-    
+
     // Setup UI components
     this.modalManager.setupAchievementUI();
     this.modalManager.setupHelpUI();
@@ -77,12 +82,14 @@ class WordGameController {
 
   setupGame() {
     const baseLetters = GridGenerator.generateLetters(
-        this.dictionary, this.gameState.currentDate);
+      this.dictionary,
+      this.gameState.currentDate,
+    );
 
     const shuffledLetters = this.gameState.loadShuffledGrid();
     if (shuffledLetters) {
-      const baseSorted = baseLetters.slice().sort().join('');
-      const shuffledSorted = shuffledLetters.slice().sort().join('');
+      const baseSorted = baseLetters.slice().sort().join("");
+      const shuffledSorted = shuffledLetters.slice().sort().join("");
 
       if (baseSorted === shuffledSorted) {
         this.gameState.letters = shuffledLetters;
@@ -94,7 +101,7 @@ class WordGameController {
       this.gameState.letters = baseLetters;
     }
     this.gameState.middleLetter =
-        this.gameState.letters[this.gameState.middleIndex];
+      this.gameState.letters[this.gameState.middleIndex];
 
     this.ui.drawGrid();
     this.gameState.loadFoundWords();
@@ -104,11 +111,10 @@ class WordGameController {
 
     // Then set the filtered list based on current mode
     const nineLetterMode =
-        document.getElementById("nineLetterMode")?.checked || false;
-    this.gameState.possibleWords =
-        nineLetterMode
-            ? this.gameState.allPossibleWords.filter(word => word.length === 9)
-            : this.gameState.allPossibleWords;
+      document.getElementById("nineLetterMode")?.checked || false;
+    this.gameState.possibleWords = nineLetterMode
+      ? this.gameState.allPossibleWords.filter((word) => word.length === 9)
+      : this.gameState.allPossibleWords;
 
     this.ui.renderFoundWords();
     this.ui.updateDateInput();
@@ -128,23 +134,29 @@ class WordGameController {
 
     this.gameState.addFoundWord(this.gameState.currentWord);
 
-    const newAchievements =
-        this.achievementManager.checkAchievements(this.gameState.currentWord);
+    const newAchievements = this.achievementManager.checkAchievements(
+      this.gameState.currentWord,
+    );
 
     this.ui.renderFoundWords();
-    const successMessage = this.translator.translate(
-        "messages.wordFound", {word : this.gameState.currentWord});
+    const successMessage = this.translator.translate("messages.wordFound", {
+      word: this.gameState.currentWord,
+    });
     this.ui.showMessage(successMessage, true);
 
     this.ui.clearCurrentWord();
 
     // Use modal manager for notifications
     newAchievements.forEach((achievement, index) => {
-      setTimeout(() => this.modalManager.showAchievementNotification(achievement),
-                 (index + 1) * 1000);
+      setTimeout(
+        () => this.modalManager.showAchievementNotification(achievement),
+        (index + 1) * 1000,
+      );
     });
 
-    setTimeout(() => { this.ui.showMessage(""); }, 2000);
+    setTimeout(() => {
+      this.ui.showMessage("");
+    }, 2000);
   }
 
   changeDate(deltaDays) {
@@ -176,7 +188,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const game = new WordGameController();
   await game.init();
 
-  setTimeout(() => { game.themeManager.init(); }, 100);
+  setTimeout(() => {
+    game.themeManager.init();
+  }, 100);
 
   window.game = game;
 });

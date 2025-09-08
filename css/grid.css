@@ -1,43 +1,43 @@
 /* === Grid Specific Styles === */
 .letters-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 60px);
-    grid-template-rows: repeat(3, 60px);
-    gap: 10px;
-    justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  grid-template-rows: repeat(3, 60px);
+  gap: 10px;
+  justify-content: center;
 }
 
 .letter-cell {
-    width: 60px;
-    height: 60px;
-    background-color: var(--grid-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    border: 2px solid var(--grid-border);
-    cursor: pointer;
-    user-select: none;
-    color: var(--text-color);
-    border-radius: 8px;
-    transition: all 0.2s ease;
+  width: 60px;
+  height: 60px;
+  background-color: var(--grid-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid var(--grid-border);
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .letter-cell:hover {
-    transform: scale(1.05);
-    border-color: var(--center-bg);
+  transform: scale(1.05);
+  border-color: var(--center-bg);
 }
 
 .letter-cell.used {
-    background-color: var(--grid-used);
-    pointer-events: none;
-    color: var(--grid-used-text);
-    transform: scale(0.95);
+  background-color: var(--grid-used);
+  pointer-events: none;
+  color: var(--grid-used-text);
+  transform: scale(0.95);
 }
 
 .letter-cell.center {
-    background-color: var(--center-bg);
-    color: var(--center-text);
-    border-width: 3px;
+  background-color: var(--center-bg);
+  color: var(--center-text);
+  border-width: 3px;
 }
