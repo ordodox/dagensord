@@ -9,6 +9,7 @@ class WordGameController {
     this.achievementManager = new AchievementManager(this.gameState);
     this.translator = new TranslationLoader();
     this.modalManager = null; // Will be initialized after translator
+    this.eventManager = null; // Will be initialized after translator
   }
 
   async init() {
@@ -40,17 +41,18 @@ class WordGameController {
       console.warn("Could not load achievements");
     }
 
-    // Initialize modal manager
+    // Initialize managers
     this.modalManager = new ModalManager(this.gameState, this.achievementManager, this.translator);
+    this.eventManager = new EventManager(this);
 
     this.setupInitialDate();
     this.setupGame();
-    this.bindEvents();
     
-    // Setup UI components through modal manager
+    // Setup UI components
     this.modalManager.setupAchievementUI();
     this.modalManager.setupHelpUI();
     this.modalManager.populateHelpContent();
+    this.eventManager.bindEvents();
   }
 
   setupInitialDate() {
@@ -97,8 +99,10 @@ class WordGameController {
     this.ui.drawGrid();
     this.gameState.loadFoundWords();
 
+    // Set the complete unfiltered list first
     this.gameState.allPossibleWords = this.validator.getPossibleWords();
 
+    // Then set the filtered list based on current mode
     const nineLetterMode =
         document.getElementById("nineLetterMode")?.checked || false;
     this.gameState.possibleWords =
@@ -164,121 +168,6 @@ class WordGameController {
     this.achievementManager.refreshForCurrentDate();
 
     this.setupGame();
-  }
-
-  bindEvents() {
-    this.bindButtonEvents();
-    this.bindDateEvents();
-    this.bindKeyboardEvents();
-    this.bindModeToggle();
-  }
-
-  bindButtonEvents() {
-    const buttons = {
-      submitWord : () => this.submitWord(),
-      eraseWord : () => this.ui.eraseLastLetter(),
-      clearWord : () => this.ui.clearCurrentWord(),
-      shuffleLetters : () => this.ui.shuffleLetters(),
-      toggleThemeBtn : () => this.themeManager.toggle(),
-      'achievements-btn' : () => this.modalManager.showAchievements()
-    };
-
-    Object.entries(buttons).forEach(([ id, handler ]) => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.addEventListener("click", handler);
-      }
-    });
-  }
-
-  bindDateEvents() {
-    document.getElementById("prevDayBtn")
-        ?.addEventListener("click", () => { this.changeDate(-1); });
-
-    document.getElementById("nextDayBtn")
-        ?.addEventListener("click", () => { this.changeDate(1); });
-
-    document.getElementById("selectDate")
-        ?.addEventListener("change", (event) => {
-          const newDate = new Date(event.target.value);
-          this.setDate(newDate);
-        });
-  }
-
-  bindKeyboardEvents() {
-    document.addEventListener("keydown", (event) => {
-      if (event.target.tagName === "INPUT" ||
-          event.target.tagName === "TEXTAREA") {
-        return;
-      }
-
-      switch (event.key) {
-      case "Enter":
-        this.submitWord();
-        event.preventDefault();
-        break;
-
-      case "Backspace":
-        this.ui.eraseLastLetter(); // Changed from clearCurrentWord to
-                                   // eraseLastLetter
-        event.preventDefault();
-        break;
-
-      case "Delete":
-        this.ui.clearCurrentWord(); // Keep Delete for full clear
-        event.preventDefault();
-        break;
-
-      case " ":
-        this.ui.shuffleLetters();
-        event.preventDefault();
-        break;
-
-      default:
-        this.handleLetterKeyPress(event);
-        break;
-      }
-    });
-  }
-
-  handleLetterKeyPress(event) {
-    if (event.ctrlKey || event.metaKey || event.altKey)
-      return;
-
-    const pressed = event.key.toUpperCase();
-    if (!/^[A-ZÅÄÖ]$/.test(pressed))
-      return;
-
-    for (let i = 0; i < this.gameState.letters.length; i++) {
-      if (this.gameState.letters[i] === pressed &&
-          !this.gameState.selectedIndices.has(i)) {
-        if (this.gameState.addLetter(pressed, i)) {
-          const cell = document.querySelector(`[data-index="${i}"]`);
-          if (cell)
-            cell.classList.add("used");
-          this.ui.updateCurrentWordDisplay();
-        }
-        break;
-      }
-    }
-
-    event.preventDefault();
-  }
-
-  bindModeToggle() {
-    document.getElementById("nineLetterMode")
-        ?.addEventListener("change", () => {
-          // NEW: Update filtered list based on current mode, but keep
-          // allPossibleWords unchanged
-          const nineLetterMode =
-              document.getElementById("nineLetterMode")?.checked || false;
-          this.gameState.possibleWords =
-              nineLetterMode ? this.gameState.allPossibleWords.filter(
-                                   word => word.length === 9)
-                             : this.gameState.allPossibleWords;
-
-          this.ui.renderFoundWords();
-        });
   }
 }
 
