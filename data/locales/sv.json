@@ -19,9 +19,10 @@
   "messages": {
     "wordFound": "{word} hittat! 🎉",
     "wordNotInDictionary": "Ordet finns inte i ordlistan",
-    "wordTooShort": "Ordet måste vara minst 4 bokstäver",
+    "wordTooShort": "Ordet måste vara minst 3 bokstäver",
     "wordMissingCenter": "Ordet måste innehålla mittenbokstaven {letter}",
     "wordAlreadyFound": "Du har redan hittat detta ord",
+    "nineLetterModeOnly": "Endast 9-bokstäversord tillåts",
     "dictionaryLoadError": "Kunde inte ladda ordlistan"
   },
   "wordGroups": {

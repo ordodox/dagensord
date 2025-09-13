@@ -8,6 +8,7 @@ class EventManager {
     this.bindDateEvents();
     this.bindKeyboardEvents();
     this.bindModeToggle();
+    this.restoreNineLetterModeState();
   }
 
   bindButtonEvents() {
@@ -106,18 +107,35 @@ class EventManager {
   }
 
   bindModeToggle() {
-    document
-      .getElementById("nineLetterMode")
-      ?.addEventListener("change", () => {
-        const nineLetterMode =
-          document.getElementById("nineLetterMode")?.checked || false;
-        this.game.gameState.possibleWords = nineLetterMode
-          ? this.game.gameState.allPossibleWords.filter(
-              (word) => word.length === 9,
-            )
-          : this.game.gameState.allPossibleWords;
+  document
+    .getElementById("nineLetterMode")
+    ?.addEventListener("change", () => {
+      const nineLetterMode =
+        document.getElementById("nineLetterMode")?.checked || false;
+      
+      // Save the state to localStorage
+      localStorage.setItem('nineLetterMode', JSON.stringify(nineLetterMode));
+      
+      this.game.gameState.possibleWords = nineLetterMode
+        ? this.game.gameState.allPossibleWords.filter(
+            (word) => word.length === 9,
+          )
+        : this.game.gameState.allPossibleWords;
 
-        this.game.ui.renderFoundWords();
-      });
+      this.game.ui.renderFoundWords();
+    });
+  }
+
+  restoreNineLetterModeState() {
+  const savedMode = localStorage.getItem('nineLetterMode');
+  if (savedMode !== null) {
+    const nineLetterToggle = document.getElementById("nineLetterMode");
+    if (nineLetterToggle) {
+      nineLetterToggle.checked = JSON.parse(savedMode);
+      
+      // Trigger the change event to update game state
+      nineLetterToggle.dispatchEvent(new Event('change'));
+      }
+    }
   }
 }
