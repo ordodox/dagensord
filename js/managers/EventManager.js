@@ -112,8 +112,6 @@ class EventManager {
       const nineLetterMode =
         document.getElementById("nineLetterMode")?.checked || false;
       
-      console.log('Nine letter mode toggled to:', nineLetterMode); // ADD THIS
-      
       // Save the state to localStorage
       localStorage.setItem('nineLetterMode', JSON.stringify(nineLetterMode));
       
