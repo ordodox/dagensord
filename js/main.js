@@ -80,46 +80,56 @@ class WordGameController {
     this.gameState.setDate(initialDate);
   }
 
+
   setupGame() {
-    const baseLetters = GridGenerator.generateLetters(
-      this.dictionary,
-      this.gameState.currentDate,
-    );
+  const baseLetters = GridGenerator.generateLetters(
+    this.dictionary,
+    this.gameState.currentDate,
+  );
 
-    const shuffledLetters = this.gameState.loadShuffledGrid();
-    if (shuffledLetters) {
-      const baseSorted = baseLetters.slice().sort().join("");
-      const shuffledSorted = shuffledLetters.slice().sort().join("");
+  const shuffledLetters = this.gameState.loadShuffledGrid();
+  if (shuffledLetters) {
+    const baseSorted = baseLetters.slice().sort().join("");
+    const shuffledSorted = shuffledLetters.slice().sort().join("");
 
-      if (baseSorted === shuffledSorted) {
-        this.gameState.letters = shuffledLetters;
-      } else {
-        this.gameState.letters = baseLetters;
-        this.gameState.clearShuffledGrid();
-      }
+    if (baseSorted === shuffledSorted) {
+      this.gameState.letters = shuffledLetters;
     } else {
       this.gameState.letters = baseLetters;
+      this.gameState.clearShuffledGrid();
     }
-    this.gameState.middleLetter =
-      this.gameState.letters[this.gameState.middleIndex];
-
-    this.ui.drawGrid();
-    this.gameState.loadFoundWords();
-
-    // Set the complete unfiltered list first
-    this.gameState.allPossibleWords = this.validator.getPossibleWords();
-
-    // Then set the filtered list based on current mode
-    const nineLetterMode =
-      document.getElementById("nineLetterMode")?.checked || false;
-    this.gameState.possibleWords = nineLetterMode
-      ? this.gameState.allPossibleWords.filter((word) => word.length === 9)
-      : this.gameState.allPossibleWords;
-
-    this.ui.renderFoundWords();
-    this.ui.updateDateInput();
-    this.ui.updateNavigationButtons();
+  } else {
+    this.gameState.letters = baseLetters;
   }
+  this.gameState.middleLetter =
+    this.gameState.letters[this.gameState.middleIndex];
+
+  this.ui.drawGrid();
+  this.gameState.loadFoundWords();
+
+  // Set the complete unfiltered list first
+  this.gameState.allPossibleWords = this.validator.getPossibleWords();
+
+  // Restore nine-letter mode state after allPossibleWords is set
+  const savedMode = localStorage.getItem('nineLetterMode');
+  if (savedMode !== null) {
+    const nineLetterToggle = document.getElementById("nineLetterMode");
+    if (nineLetterToggle) {
+      nineLetterToggle.checked = JSON.parse(savedMode);
+    }
+  }
+
+  // Then set the filtered list based on current mode
+  const nineLetterMode =
+    document.getElementById("nineLetterMode")?.checked || false;
+  this.gameState.possibleWords = nineLetterMode
+    ? this.gameState.allPossibleWords.filter((word) => word.length === 9)
+    : this.gameState.allPossibleWords;
+
+  this.ui.renderFoundWords();
+  this.ui.updateDateInput();
+  this.ui.updateNavigationButtons();
+}
 
   submitWord() {
     this.ui.showMessage("");

@@ -8,7 +8,6 @@ class EventManager {
     this.bindDateEvents();
     this.bindKeyboardEvents();
     this.bindModeToggle();
-    this.restoreNineLetterModeState();
   }
 
   bindButtonEvents() {
@@ -113,6 +112,8 @@ class EventManager {
       const nineLetterMode =
         document.getElementById("nineLetterMode")?.checked || false;
       
+      console.log('Nine letter mode toggled to:', nineLetterMode); // ADD THIS
+      
       // Save the state to localStorage
       localStorage.setItem('nineLetterMode', JSON.stringify(nineLetterMode));
       
@@ -124,18 +125,5 @@ class EventManager {
 
       this.game.ui.renderFoundWords();
     });
-  }
-
-  restoreNineLetterModeState() {
-  const savedMode = localStorage.getItem('nineLetterMode');
-  if (savedMode !== null) {
-    const nineLetterToggle = document.getElementById("nineLetterMode");
-    if (nineLetterToggle) {
-      nineLetterToggle.checked = JSON.parse(savedMode);
-      
-      // Trigger the change event to update game state
-      nineLetterToggle.dispatchEvent(new Event('change'));
-      }
-    }
-  }
+}
 }

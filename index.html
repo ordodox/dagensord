@@ -40,6 +40,15 @@
       href="img/icons/apple-touch-icon.png"
     />
 
+    <script>
+(function() {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/grid.css" />
@@ -62,7 +71,7 @@
       title="Växla tema"
       aria-label="Växla tema"
     >
-      <img id="themeIcon" src="img/ui/light.png" alt="Tema" />
+      <span class="icon" id="themeIcon"></span>
     </button>
 
     <!-- Floating achievements button (under theme button) -->
@@ -72,11 +81,7 @@
       title="Prestationer"
       aria-label="Prestationer"
     >
-      <img
-        id="achievementIcon"
-        src="img/ui/achievement_light.png"
-        alt="Prestationer"
-      />
+      <span class="icon" id="achievementIcon"></span>
     </button>
 
     <!-- Floating help button (under achievements button) -->
@@ -86,7 +91,7 @@
       title="Hjälp"
       aria-label="Hjälp"
     >
-      <img id="helpIcon" src="img/ui/help_light.png" alt="Hjälp" />
+      <span class="icon" id="helpIcon"></span>
     </button>
 
     <div class="game-container">
@@ -99,7 +104,7 @@
           title="Skicka ord (Enter)"
           aria-label="Skicka ord"
         >
-          <img id="submitIcon" src="img/ui/submit_light.png" alt="Skicka" />
+          <span class="icon" id="submitIcon"></span>
         </button>
         <button
           class="control-btn"
@@ -107,7 +112,7 @@
           title="Radera sista bokstav"
           aria-label="Radera sista bokstav"
         >
-          <img id="eraseIcon" src="img/ui/erase_light.png" alt="Radera" />
+          <span class="icon" id="eraseIcon"></span>
         </button>
         <button
           class="control-btn"
@@ -115,7 +120,7 @@
           title="Rensa ord (Backspace)"
           aria-label="Rensa ord"
         >
-          <img id="resetIcon" src="img/ui/reset_light.png" alt="Rensa" />
+          <span class="icon" id="resetIcon"></span>
         </button>
         <button
           class="control-btn"
@@ -123,7 +128,7 @@
           title="Blanda bokstäver (Mellanslag)"
           aria-label="Blanda bokstäver"
         >
-          <img id="shuffleIcon" src="img/ui/shuffle_light.png" alt="Blanda" />
+          <span class="icon" id="shuffleIcon"></span>
         </button>
       </div>
     </div>

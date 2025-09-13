@@ -6,13 +6,22 @@
   --grid-border: #ccc;
   --grid-used: #bbb;
   --grid-used-text: #555;
-  --center-bg: #ffd966;
+  --center-bg: #ffaa00;
   --center-text: #222;
   --message-color: #000;
   --found-words-color: #444;
+  
+  /* FIXED ICON PATHS - added ../ to go up one directory */
+  --submit-icon: url('../img/ui/submit_light.png');
+  --erase-icon: url('../img/ui/erase_light.png');
+  --reset-icon: url('../img/ui/reset_light.png');
+  --shuffle-icon: url('../img/ui/shuffle_light.png');
+  --achievement-icon: url('../img/ui/achievement_light.png');
+  --help-icon: url('../img/ui/help_light.png');
+  --theme-icon: url('../img/ui/dark.png');
 }
 
-/* Dark mode using both selectors for compatibility */
+/* Dark mode */
 [data-theme="dark"],
 body.dark-mode {
   --bg-color: #121212;
@@ -25,4 +34,31 @@ body.dark-mode {
   --center-text: #000;
   --message-color: #fff;
   --found-words-color: #ccc;
+  
+  /* FIXED DARK MODE ICON PATHS */
+  --submit-icon: url('../img/ui/submit_dark.png');
+  --erase-icon: url('../img/ui/erase_dark.png');
+  --reset-icon: url('../img/ui/reset_dark.png');
+  --shuffle-icon: url('../img/ui/shuffle_dark.png');
+  --achievement-icon: url('../img/ui/achievement_dark.png');
+  --help-icon: url('../img/ui/help_dark.png');
+  --theme-icon: url('../img/ui/light.png');
 }
+
+/* Icon styles */
+.icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#submitIcon { background-image: var(--submit-icon); }
+#eraseIcon { background-image: var(--erase-icon); }
+#resetIcon { background-image: var(--reset-icon); }
+#shuffleIcon { background-image: var(--shuffle-icon); }
+#achievementIcon { background-image: var(--achievement-icon); }
+#helpIcon { background-image: var(--help-icon); }
+#themeIcon { background-image: var(--theme-icon); }
