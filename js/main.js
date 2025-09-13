@@ -80,7 +80,6 @@ class WordGameController {
     this.gameState.setDate(initialDate);
   }
 
-
   setupGame() {
   const baseLetters = GridGenerator.generateLetters(
     this.dictionary,
@@ -129,6 +128,37 @@ class WordGameController {
   this.ui.renderFoundWords();
   this.ui.updateDateInput();
   this.ui.updateNavigationButtons();
+
+  // Set up the toggle event listener
+  const toggle = document.getElementById("nineLetterMode");
+  if (toggle) {
+    // Remove any existing event listeners first
+    if (this.handleToggleChange) {
+      toggle.removeEventListener("change", this.handleToggleChange);
+    }
+    
+    this.handleToggleChange = (e) => {
+      // Always get fresh word list during toggle
+      this.gameState.allPossibleWords = this.validator.getPossibleWords();
+      this.gameState.nineLetterMode = e.target.checked;
+      
+      // Filter possible words based on toggle state
+      if (this.gameState.nineLetterMode) {
+        this.gameState.possibleWords = this.gameState.allPossibleWords.filter(word => word.length === 9);
+      } else {
+        this.gameState.possibleWords = [...this.gameState.allPossibleWords];
+      }
+      
+      // Save the setting
+      localStorage.setItem("nineLetterMode", this.gameState.nineLetterMode);
+      
+      // Re-render the found words display
+      this.ui.renderFoundWords();
+    };
+    
+    // Add the event listener
+    toggle.addEventListener("change", this.handleToggleChange);
+  }
 }
 
   submitWord() {
