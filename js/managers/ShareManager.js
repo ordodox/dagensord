@@ -51,34 +51,34 @@ ${this.translator.translate('share.play_at')} ${window.location.origin}${window.
   }
 
   async shareResult() {
-    const shareData = this.generateShareData();
-    
-    // Try native Web Share API first (mobile devices)
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: shareData.title,
-          text: shareData.text,
-          url: shareData.url
-        });
-        return;
-      } catch (err) {
-        // User cancelled or error occurred, fall back to clipboard
-      }
-    }
-    
-    // Fallback: Copy to clipboard
+  const shareData = this.generateShareData();
+  
+  // Try native Web Share API first (mobile devices)
+  if (navigator.share) {
     try {
-      await navigator.clipboard.writeText(shareData.text);
-      // Show success message through UIManager if available
-      if (window.game && window.game.ui) {
-        window.game.ui.showMessage(this.translator.translate('share.copied'), true);
-      }
+      await navigator.share({
+        title: shareData.title,
+        text: shareData.text
+        // Remove the url parameter to avoid duplication
+      });
+      return;
     } catch (err) {
-      // Final fallback: Show modal with text to copy
-      this.showShareModal(shareData.text);
+      // User cancelled or error occurred, fall back to clipboard
     }
   }
+  
+  // Fallback: Copy to clipboard
+  try {
+    await navigator.clipboard.writeText(shareData.text);
+    // Show success message through UIManager if available
+    if (window.game && window.game.ui) {
+      window.game.ui.showMessage(this.translator.translate('share.copied'), true);
+    }
+  } catch (err) {
+    // Final fallback: Show modal with text to copy
+    this.showShareModal(shareData.text);
+  }
+}
 
   showShareModal(shareText) {
     const modal = document.createElement('div');
