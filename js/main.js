@@ -10,6 +10,7 @@ class WordGameController {
     this.translator = new TranslationLoader();
     this.modalManager = null; // Will be initialized after translator
     this.eventManager = null; // Will be initialized after translator
+    this.shareManager = null; // Will be initialized after translator
   }
 
   async init() {
@@ -48,6 +49,11 @@ class WordGameController {
       this.achievementManager,
       this.translator,
     );
+    this.shareManager = new ShareManager(
+      this.gameState,
+      this.achievementManager,
+      this.translator,
+    );
     this.eventManager = new EventManager(this);
 
     this.setupInitialDate();
@@ -57,6 +63,7 @@ class WordGameController {
     this.modalManager.setupAchievementUI();
     this.modalManager.setupHelpUI();
     this.modalManager.populateHelpContent();
+    this.shareManager.setupShareButton();
     this.eventManager.bindEvents();
   }
 

@@ -6,6 +6,14 @@ class DateUtils {
     return `${year}-${month}-${day}`;
   }
 
+  static formatForDisplay(date) {
+    return new Date(date).toLocaleDateString('sv-SE', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
   static isToday(date) {
     const today = new Date();
     return date.toDateString() === today.toDateString();

@@ -16,6 +16,19 @@
   "mode": {
     "nineLetterOnly": "Endast 9-bokstäversord"
   },
+  "share": {
+    "button": "📤 Dela mitt resultat",
+    "title": "Ordagrann Resultat - {date}",
+    "copied": "Resultat kopierat till urklipp! 📋",
+    "modalTitle": "Dela ditt resultat",
+    "close": "Stäng",
+    "copy": "Kopiera",
+    "copied_button": "Kopierat!",
+    "words": "ord",
+    "nine_letter_words": "niostaviga ord",
+    "achievements": "prestationer",
+    "play_at": "Spela på:"
+  },
   "messages": {
     "wordFound": "{word} hittat! 🎉",
     "wordNotInDictionary": "Ordet finns inte i ordlistan",
