@@ -83,6 +83,7 @@ class WordGameController {
       }
     }
     
+    // If no valid date parameter, return null to use default logic
     return null;
   }
 
@@ -104,18 +105,32 @@ class WordGameController {
     let initialDate = today;
     
     if (urlDate) {
+      // Use URL date
       initialDate = new Date(urlDate);
       dateInput.value = urlDate;
-    } else if (dateInput.value) {
-      const parsedDate = new Date(dateInput.value);
-      if (!isNaN(parsedDate) && !DateUtils.isFuture(parsedDate)) {
-        initialDate = parsedDate;
-      }
     } else {
-      dateInput.value = todayStr;
+      // No URL date - check for saved date in localStorage
+      const savedDate = localStorage.getItem('selectedDate');
+      if (savedDate) {
+        const parsedDate = new Date(savedDate);
+        if (!isNaN(parsedDate) && !DateUtils.isFuture(parsedDate)) {
+          initialDate = parsedDate;
+          dateInput.value = savedDate;
+        } else {
+          // Invalid saved date, fall back to today
+          dateInput.value = todayStr;
+          localStorage.removeItem('selectedDate'); // Clean up invalid date
+        }
+      } else {
+        // No saved date, use today
+        dateInput.value = todayStr;
+      }
     }
 
     this.gameState.setDate(initialDate);
+    
+    // Save the selected date to localStorage
+    localStorage.setItem('selectedDate', DateUtils.formatForInput(initialDate));
     
     // Update URL to reflect the current date
     this.updateURL(DateUtils.formatForInput(initialDate));
@@ -259,6 +274,9 @@ class WordGameController {
     this.gameState.setDate(newDate);
     this.gameState.clearShuffledGrid();
     this.achievementManager.refreshForCurrentDate();
+
+    // Save the selected date to localStorage
+    localStorage.setItem('selectedDate', DateUtils.formatForInput(newDate));
 
     // Update URL when date changes
     this.updateURL(DateUtils.formatForInput(newDate));
