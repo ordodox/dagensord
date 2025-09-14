@@ -4,39 +4,38 @@ class WordValidator {
     this.dictionary = dictionary;
   }
 
-
   validate(word) {
-  const errors = [];
+    const errors = [];
 
-  if (word.length < 3) {
-    errors.push(this.getTranslation("messages.wordTooShort"));
+    if (word.length < 3) {
+      errors.push(this.getTranslation("messages.wordTooShort"));
+    }
+
+    // Add nine-letter mode check
+    const nineLetterMode =
+      document.getElementById("nineLetterMode")?.checked || false;
+    if (nineLetterMode && word.length !== 9) {
+      errors.push(this.getTranslation("messages.nineLetterModeOnly"));
+    }
+
+    if (!word.includes(this.gameState.middleLetter)) {
+      errors.push(
+        this.getTranslation("messages.wordMissingCenter", {
+          letter: this.gameState.middleLetter,
+        }),
+      );
+    }
+
+    if (!this.dictionary.contains(word)) {
+      errors.push(this.getTranslation("messages.wordNotInDictionary"));
+    }
+
+    if (this.gameState.foundWords.has(word)) {
+      errors.push(this.getTranslation("messages.wordAlreadyFound"));
+    }
+
+    return { isValid: errors.length === 0, errors };
   }
-
-  // Add nine-letter mode check
-  const nineLetterMode = document.getElementById("nineLetterMode")?.checked || false;
-  if (nineLetterMode && word.length !== 9) {
-    errors.push(this.getTranslation("messages.nineLetterModeOnly"));
-  }
-
-  if (!word.includes(this.gameState.middleLetter)) {
-    errors.push(
-      this.getTranslation("messages.wordMissingCenter", {
-        letter: this.gameState.middleLetter,
-      }),
-    );
-  }
-
-  if (!this.dictionary.contains(word)) {
-    errors.push(this.getTranslation("messages.wordNotInDictionary"));
-  }
-
-  if (this.gameState.foundWords.has(word)) {
-    errors.push(this.getTranslation("messages.wordAlreadyFound"));
-  }
-
-  return { isValid: errors.length === 0, errors };
-}
-
 
   getTranslation(key, params = {}) {
     // Access translator through global game instance

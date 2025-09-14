@@ -106,22 +106,22 @@ class EventManager {
   }
 
   bindModeToggle() {
-  document
-    .getElementById("nineLetterMode")
-    ?.addEventListener("change", () => {
-      const nineLetterMode =
-        document.getElementById("nineLetterMode")?.checked || false;
-      
-      // Save the state to localStorage
-      localStorage.setItem('nineLetterMode', JSON.stringify(nineLetterMode));
-      
-      this.game.gameState.possibleWords = nineLetterMode
-        ? this.game.gameState.allPossibleWords.filter(
-            (word) => word.length === 9,
-          )
-        : this.game.gameState.allPossibleWords;
+    document
+      .getElementById("nineLetterMode")
+      ?.addEventListener("change", () => {
+        const nineLetterMode =
+          document.getElementById("nineLetterMode")?.checked || false;
 
-      this.game.ui.renderFoundWords();
-    });
-}
+        // Save the state to localStorage
+        localStorage.setItem("nineLetterMode", JSON.stringify(nineLetterMode));
+
+        this.game.gameState.possibleWords = nineLetterMode
+          ? this.game.gameState.allPossibleWords.filter(
+              (word) => word.length === 9,
+            )
+          : this.game.gameState.allPossibleWords;
+
+        this.game.ui.renderFoundWords();
+      });
+  }
 }

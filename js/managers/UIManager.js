@@ -229,25 +229,25 @@ class UIManager {
   }
 
   updateSummary(nineLetterOnly) {
-  // Calculate the totals first
-  const totalFound = Array.from(this.gameState.foundWords).filter(
-    (word) => !nineLetterOnly || word.length === 9,
-  ).length;
+    // Calculate the totals first
+    const totalFound = Array.from(this.gameState.foundWords).filter(
+      (word) => !nineLetterOnly || word.length === 9,
+    ).length;
 
-  // Use the already-filtered possibleWords array directly
-  const totalPossible = this.gameState.possibleWords.length;
+    // Use the already-filtered possibleWords array directly
+    const totalPossible = this.gameState.possibleWords.length;
 
-  // Use translator if available
-  const summaryText = window.game?.translator
-    ? window.game.translator.translate("wordsFound", {
-        found: totalFound,
-        total: totalPossible,
-      })
-    : `${totalFound} / ${totalPossible} ord`;
+    // Use translator if available
+    const summaryText = window.game?.translator
+      ? window.game.translator.translate("wordsFound", {
+          found: totalFound,
+          total: totalPossible,
+        })
+      : `${totalFound} / ${totalPossible} ord`;
 
-  // Update your summary element
-  document.getElementById("wordsFoundSummary").textContent = summaryText;
-}
+    // Update your summary element
+    document.getElementById("wordsFoundSummary").textContent = summaryText;
+  }
 
   updateDateInput() {
     if (this.elements.dateInput) {

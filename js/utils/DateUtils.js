@@ -7,10 +7,10 @@ class DateUtils {
   }
 
   static formatForDisplay(date) {
-    return new Date(date).toLocaleDateString('sv-SE', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(date).toLocaleDateString("sv-SE", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   }
 

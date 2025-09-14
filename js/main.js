@@ -69,8 +69,8 @@ class WordGameController {
 
   getDateFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
-    const dateParam = urlParams.get('date');
-    
+    const dateParam = urlParams.get("date");
+
     if (dateParam) {
       // Validate the date format (YYYY-MM-DD)
       const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -82,15 +82,15 @@ class WordGameController {
         }
       }
     }
-    
+
     // If no valid date parameter, return null to use default logic
     return null;
   }
 
   updateURL(date) {
     const url = new URL(window.location);
-    url.searchParams.set('date', date);
-    window.history.replaceState({}, '', url);
+    url.searchParams.set("date", date);
+    window.history.replaceState({}, "", url);
   }
 
   setupInitialDate() {
@@ -103,14 +103,14 @@ class WordGameController {
     // Check for URL date parameter first
     const urlDate = this.getDateFromURL();
     let initialDate = today;
-    
+
     if (urlDate) {
       // Use URL date
       initialDate = new Date(urlDate);
       dateInput.value = urlDate;
     } else {
       // No URL date - check for saved date in localStorage
-      const savedDate = localStorage.getItem('selectedDate');
+      const savedDate = localStorage.getItem("selectedDate");
       if (savedDate) {
         const parsedDate = new Date(savedDate);
         if (!isNaN(parsedDate) && !DateUtils.isFuture(parsedDate)) {
@@ -119,7 +119,7 @@ class WordGameController {
         } else {
           // Invalid saved date, fall back to today
           dateInput.value = todayStr;
-          localStorage.removeItem('selectedDate'); // Clean up invalid date
+          localStorage.removeItem("selectedDate"); // Clean up invalid date
         }
       } else {
         // No saved date, use today
@@ -128,10 +128,10 @@ class WordGameController {
     }
 
     this.gameState.setDate(initialDate);
-    
+
     // Save the selected date to localStorage
-    localStorage.setItem('selectedDate', DateUtils.formatForInput(initialDate));
-    
+    localStorage.setItem("selectedDate", DateUtils.formatForInput(initialDate));
+
     // Update URL to reflect the current date
     this.updateURL(DateUtils.formatForInput(initialDate));
   }
@@ -166,7 +166,7 @@ class WordGameController {
     this.gameState.allPossibleWords = this.validator.getPossibleWords();
 
     // Restore nine-letter mode state after allPossibleWords is set
-    const savedMode = localStorage.getItem('nineLetterMode');
+    const savedMode = localStorage.getItem("nineLetterMode");
     if (savedMode !== null) {
       const nineLetterToggle = document.getElementById("nineLetterMode");
       if (nineLetterToggle) {
@@ -192,26 +192,28 @@ class WordGameController {
       if (this.handleToggleChange) {
         toggle.removeEventListener("change", this.handleToggleChange);
       }
-      
+
       this.handleToggleChange = (e) => {
         // Always get fresh word list during toggle
         this.gameState.allPossibleWords = this.validator.getPossibleWords();
         this.gameState.nineLetterMode = e.target.checked;
-        
+
         // Filter possible words based on toggle state
         if (this.gameState.nineLetterMode) {
-          this.gameState.possibleWords = this.gameState.allPossibleWords.filter(word => word.length === 9);
+          this.gameState.possibleWords = this.gameState.allPossibleWords.filter(
+            (word) => word.length === 9,
+          );
         } else {
           this.gameState.possibleWords = [...this.gameState.allPossibleWords];
         }
-        
+
         // Save the setting
         localStorage.setItem("nineLetterMode", this.gameState.nineLetterMode);
-        
+
         // Re-render the found words display
         this.ui.renderFoundWords();
       };
-      
+
       // Add the event listener
       toggle.addEventListener("change", this.handleToggleChange);
     }
@@ -276,7 +278,7 @@ class WordGameController {
     this.achievementManager.refreshForCurrentDate();
 
     // Save the selected date to localStorage
-    localStorage.setItem('selectedDate', DateUtils.formatForInput(newDate));
+    localStorage.setItem("selectedDate", DateUtils.formatForInput(newDate));
 
     // Update URL when date changes
     this.updateURL(DateUtils.formatForInput(newDate));
