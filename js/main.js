@@ -60,6 +60,31 @@ class WordGameController {
     this.eventManager.bindEvents();
   }
 
+  getDateFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const dateParam = urlParams.get('date');
+    
+    if (dateParam) {
+      // Validate the date format (YYYY-MM-DD)
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (dateRegex.test(dateParam)) {
+        const date = new Date(dateParam);
+        // Check if it's a valid date and not in the future
+        if (!isNaN(date.getTime()) && !DateUtils.isFuture(date)) {
+          return dateParam;
+        }
+      }
+    }
+    
+    return null;
+  }
+
+  updateURL(date) {
+    const url = new URL(window.location);
+    url.searchParams.set('date', date);
+    window.history.replaceState({}, '', url);
+  }
+
   setupInitialDate() {
     const dateInput = document.getElementById("selectDate");
     const today = new Date();
@@ -67,8 +92,14 @@ class WordGameController {
 
     dateInput.max = todayStr;
 
+    // Check for URL date parameter first
+    const urlDate = this.getDateFromURL();
     let initialDate = today;
-    if (dateInput.value) {
+    
+    if (urlDate) {
+      initialDate = new Date(urlDate);
+      dateInput.value = urlDate;
+    } else if (dateInput.value) {
       const parsedDate = new Date(dateInput.value);
       if (!isNaN(parsedDate) && !DateUtils.isFuture(parsedDate)) {
         initialDate = parsedDate;
@@ -78,88 +109,91 @@ class WordGameController {
     }
 
     this.gameState.setDate(initialDate);
+    
+    // Update URL to reflect the current date
+    this.updateURL(DateUtils.formatForInput(initialDate));
   }
 
   setupGame() {
-  const baseLetters = GridGenerator.generateLetters(
-    this.dictionary,
-    this.gameState.currentDate,
-  );
+    const baseLetters = GridGenerator.generateLetters(
+      this.dictionary,
+      this.gameState.currentDate,
+    );
 
-  const shuffledLetters = this.gameState.loadShuffledGrid();
-  if (shuffledLetters) {
-    const baseSorted = baseLetters.slice().sort().join("");
-    const shuffledSorted = shuffledLetters.slice().sort().join("");
+    const shuffledLetters = this.gameState.loadShuffledGrid();
+    if (shuffledLetters) {
+      const baseSorted = baseLetters.slice().sort().join("");
+      const shuffledSorted = shuffledLetters.slice().sort().join("");
 
-    if (baseSorted === shuffledSorted) {
-      this.gameState.letters = shuffledLetters;
+      if (baseSorted === shuffledSorted) {
+        this.gameState.letters = shuffledLetters;
+      } else {
+        this.gameState.letters = baseLetters;
+        this.gameState.clearShuffledGrid();
+      }
     } else {
       this.gameState.letters = baseLetters;
-      this.gameState.clearShuffledGrid();
     }
-  } else {
-    this.gameState.letters = baseLetters;
-  }
-  this.gameState.middleLetter =
-    this.gameState.letters[this.gameState.middleIndex];
+    this.gameState.middleLetter =
+      this.gameState.letters[this.gameState.middleIndex];
 
-  this.ui.drawGrid();
-  this.gameState.loadFoundWords();
+    this.ui.drawGrid();
+    this.gameState.loadFoundWords();
 
-  // Set the complete unfiltered list first
-  this.gameState.allPossibleWords = this.validator.getPossibleWords();
+    // Set the complete unfiltered list first
+    this.gameState.allPossibleWords = this.validator.getPossibleWords();
 
-  // Restore nine-letter mode state after allPossibleWords is set
-  const savedMode = localStorage.getItem('nineLetterMode');
-  if (savedMode !== null) {
-    const nineLetterToggle = document.getElementById("nineLetterMode");
-    if (nineLetterToggle) {
-      nineLetterToggle.checked = JSON.parse(savedMode);
+    // Restore nine-letter mode state after allPossibleWords is set
+    const savedMode = localStorage.getItem('nineLetterMode');
+    if (savedMode !== null) {
+      const nineLetterToggle = document.getElementById("nineLetterMode");
+      if (nineLetterToggle) {
+        nineLetterToggle.checked = JSON.parse(savedMode);
+      }
     }
-  }
 
-  // Then set the filtered list based on current mode
-  const nineLetterMode =
-    document.getElementById("nineLetterMode")?.checked || false;
-  this.gameState.possibleWords = nineLetterMode
-    ? this.gameState.allPossibleWords.filter((word) => word.length === 9)
-    : this.gameState.allPossibleWords;
+    // Then set the filtered list based on current mode
+    const nineLetterMode =
+      document.getElementById("nineLetterMode")?.checked || false;
+    this.gameState.possibleWords = nineLetterMode
+      ? this.gameState.allPossibleWords.filter((word) => word.length === 9)
+      : this.gameState.allPossibleWords;
 
-  this.ui.renderFoundWords();
-  this.ui.updateDateInput();
-  this.ui.updateNavigationButtons();
+    this.ui.renderFoundWords();
+    this.ui.updateDateInput();
+    this.ui.updateNavigationButtons();
 
-  // Set up the toggle event listener
-  const toggle = document.getElementById("nineLetterMode");
-  if (toggle) {
-    // Remove any existing event listeners first
-    if (this.handleToggleChange) {
-      toggle.removeEventListener("change", this.handleToggleChange);
-    }
-    
-    this.handleToggleChange = (e) => {
-      // Always get fresh word list during toggle
-      this.gameState.allPossibleWords = this.validator.getPossibleWords();
-      this.gameState.nineLetterMode = e.target.checked;
-      
-      // Filter possible words based on toggle state
-      if (this.gameState.nineLetterMode) {
-        this.gameState.possibleWords = this.gameState.allPossibleWords.filter(word => word.length === 9);
-      } else {
-        this.gameState.possibleWords = [...this.gameState.allPossibleWords];
+    // Set up the toggle event listener
+    const toggle = document.getElementById("nineLetterMode");
+    if (toggle) {
+      // Remove any existing event listeners first
+      if (this.handleToggleChange) {
+        toggle.removeEventListener("change", this.handleToggleChange);
       }
       
-      // Save the setting
-      localStorage.setItem("nineLetterMode", this.gameState.nineLetterMode);
+      this.handleToggleChange = (e) => {
+        // Always get fresh word list during toggle
+        this.gameState.allPossibleWords = this.validator.getPossibleWords();
+        this.gameState.nineLetterMode = e.target.checked;
+        
+        // Filter possible words based on toggle state
+        if (this.gameState.nineLetterMode) {
+          this.gameState.possibleWords = this.gameState.allPossibleWords.filter(word => word.length === 9);
+        } else {
+          this.gameState.possibleWords = [...this.gameState.allPossibleWords];
+        }
+        
+        // Save the setting
+        localStorage.setItem("nineLetterMode", this.gameState.nineLetterMode);
+        
+        // Re-render the found words display
+        this.ui.renderFoundWords();
+      };
       
-      // Re-render the found words display
-      this.ui.renderFoundWords();
-    };
-    
-    // Add the event listener
-    toggle.addEventListener("change", this.handleToggleChange);
+      // Add the event listener
+      toggle.addEventListener("change", this.handleToggleChange);
+    }
   }
-}
 
   submitWord() {
     this.ui.showMessage("");
@@ -218,6 +252,9 @@ class WordGameController {
     this.gameState.setDate(newDate);
     this.gameState.clearShuffledGrid();
     this.achievementManager.refreshForCurrentDate();
+
+    // Update URL when date changes
+    this.updateURL(DateUtils.formatForInput(newDate));
 
     this.setupGame();
   }
