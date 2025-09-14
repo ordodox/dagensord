@@ -166,40 +166,50 @@ body {
 /* === Share Button Styles === */
 .share-container {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
+  gap: 1px;
   margin: 15px 0;
   max-width: 400px;
   width: 100%;
 }
 
-.share-btn {
-  background-color: var(--center-bg);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+.share-icon-wrapper {
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  padding: 8px;
+  border-radius: 6px;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  justify-content: center;
 }
 
-.share-btn:hover {
-  background-color: var(--center-bg-hover, var(--center-bg));
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.share-icon-wrapper:hover {
+  background-color: var(--grid-bg);
+  transform: scale(1.1);
 }
 
-.share-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.share-text-wrapper {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
-.share-btn:focus-visible {
+.share-text-wrapper:hover {
+  background-color: var(--grid-bg);
+}
+
+.share-text {
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.share-icon-wrapper:focus-visible,
+.share-text-wrapper:focus-visible {
   outline: 2px solid var(--center-bg);
   outline-offset: 2px;
 }
@@ -232,7 +242,7 @@ body {
   color: var(--text-color);
 }
 
-.share-text {
+.share-modal .share-text {
   width: 100%;
   font-family: monospace;
   font-size: 12px;
@@ -433,8 +443,7 @@ body {
     max-width: 300px; /* Match mobile content width */
   }
 
-  .share-btn {
-    padding: 8px 16px;
+  .share-text {
     font-size: 13px;
   }
 

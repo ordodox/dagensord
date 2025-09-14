@@ -121,18 +121,35 @@ ${this.translator.translate('share.play_at')} ${window.location.origin}${window.
   }
 
   setupShareButton() {
-    console.log('Setting up share button...');
-    const shareButton = document.getElementById('shareButton');
-    console.log('Share button element:', shareButton);
-    
-    if (shareButton) {
-      console.log('Adding click listener to share button');
-      shareButton.addEventListener('click', () => {
-        console.log('Share button clicked!');
-        this.shareResult();
-      });
-    } else {
-      console.error('Share button not found!');
-    }
+  console.log('Setting up share button...');
+  const shareIcon = document.getElementById('shareIconWrapper');
+  const shareText = document.getElementById('shareTextWrapper');
+  
+  console.log('Share icon element:', shareIcon);
+  console.log('Share text element:', shareText);
+  
+  if (shareIcon) {
+    console.log('Adding click listener to share icon');
+    shareIcon.addEventListener('click', () => {
+      console.log('Share icon clicked!');
+      this.shareResult();
+    });
+  } else {
+    console.error('Share icon not found!');
   }
+  
+  if (shareText) {
+    console.log('Adding click listener to share text');
+    shareText.addEventListener('click', () => {
+      console.log('Share text clicked!');
+      this.shareResult();
+    });
+  } else {
+    console.error('Share text not found!');
+  }
+  
+  if (!shareIcon && !shareText) {
+    console.error('Share elements not found!');
+  }
+}
 }
