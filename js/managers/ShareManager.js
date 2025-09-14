@@ -1,16 +1,12 @@
 // === Share Manager ===
-console.log('ShareManager loaded');
-
 class ShareManager {
   constructor(gameState, achievementManager, translator) {
-    console.log('ShareManager constructor called');
     this.gameState = gameState;
     this.achievementManager = achievementManager;
     this.translator = translator;
   }
 
   generateShareData() {
-    console.log('generateShareData called');
     const date = new Date(this.gameState.currentDate).toLocaleDateString('sv-SE', {
       year: 'numeric',
       month: 'long', 
@@ -47,57 +43,44 @@ ${progressBar}
 
 ${this.translator.translate('share.play_at')} ${window.location.origin}${window.location.pathname}?date=${DateUtils.formatForInput(this.gameState.currentDate)}`;
 
-    const shareData = {
+    return {
       text: shareText,
       url: `${window.location.origin}${window.location.pathname}?date=${DateUtils.formatForInput(this.gameState.currentDate)}`,
       title: this.translator.translate('share.title', { date })
     };
-    
-    console.log('Generated share data:', shareData);
-    return shareData;
   }
 
   async shareResult() {
-    console.log('shareResult called');
     const shareData = this.generateShareData();
     
     // Try native Web Share API first (mobile devices)
     if (navigator.share) {
-      console.log('Navigator.share available, trying native share...');
       try {
         await navigator.share({
           title: shareData.title,
           text: shareData.text,
           url: shareData.url
         });
-        console.log('Native share successful');
         return;
       } catch (err) {
-        console.log('Native share failed or cancelled:', err);
         // User cancelled or error occurred, fall back to clipboard
       }
-    } else {
-      console.log('Navigator.share not available, falling back to clipboard');
     }
     
     // Fallback: Copy to clipboard
     try {
-      console.log('Trying to copy to clipboard...');
       await navigator.clipboard.writeText(shareData.text);
-      console.log('Clipboard copy successful');
       // Show success message through UIManager if available
       if (window.game && window.game.ui) {
         window.game.ui.showMessage(this.translator.translate('share.copied'), true);
       }
     } catch (err) {
-      console.log('Clipboard copy failed:', err);
       // Final fallback: Show modal with text to copy
       this.showShareModal(shareData.text);
     }
   }
 
   showShareModal(shareText) {
-    console.log('showShareModal called');
     const modal = document.createElement('div');
     modal.className = 'share-modal';
     modal.innerHTML = `
@@ -121,35 +104,19 @@ ${this.translator.translate('share.play_at')} ${window.location.origin}${window.
   }
 
   setupShareButton() {
-  console.log('Setting up share button...');
-  const shareIcon = document.getElementById('shareIconWrapper');
-  const shareText = document.getElementById('shareTextWrapper');
-  
-  console.log('Share icon element:', shareIcon);
-  console.log('Share text element:', shareText);
-  
-  if (shareIcon) {
-    console.log('Adding click listener to share icon');
-    shareIcon.addEventListener('click', () => {
-      console.log('Share icon clicked!');
-      this.shareResult();
-    });
-  } else {
-    console.error('Share icon not found!');
+    const shareIcon = document.getElementById('shareIconWrapper');
+    const shareText = document.getElementById('shareTextWrapper');
+    
+    if (shareIcon) {
+      shareIcon.addEventListener('click', () => {
+        this.shareResult();
+      });
+    }
+    
+    if (shareText) {
+      shareText.addEventListener('click', () => {
+        this.shareResult();
+      });
+    }
   }
-  
-  if (shareText) {
-    console.log('Adding click listener to share text');
-    shareText.addEventListener('click', () => {
-      console.log('Share text clicked!');
-      this.shareResult();
-    });
-  } else {
-    console.error('Share text not found!');
-  }
-  
-  if (!shareIcon && !shareText) {
-    console.error('Share elements not found!');
-  }
-}
 }
