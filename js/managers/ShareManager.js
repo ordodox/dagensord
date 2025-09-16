@@ -21,29 +21,49 @@ class ShareManager {
     const foundCount = foundWordsArray.length;
 
     // Always use the total count of ALL possible words (not filtered by mode)
-    const totalCount = this.gameState.allPossibleWords.length;
-    const percentage = Math.round((foundCount / totalCount) * 100);
+    const totalCount = this.gameState.allPossibleWords
+      ? this.gameState.allPossibleWords.length
+      : 0;
+    const percentage =
+      totalCount > 0 ? Math.round((foundCount / totalCount) * 100) : 0;
 
     // Count 9-letter words found
     const nineLetterFound = foundWordsArray.filter(
       (word) => word.length === 9,
     ).length;
-    const totalNineLetterWords = this.gameState.allPossibleWords.filter(
-      (word) => word.length === 9,
-    ).length;
+    const totalNineLetterWords = this.gameState.allPossibleWords
+      ? this.gameState.allPossibleWords.filter((word) => word.length === 9)
+          .length
+      : 0;
 
-    // Create visual progress bar
+    // Create visual progress bar with safety checks
     const barLength = 10;
-    const filledBlocks = Math.round((foundCount / totalCount) * barLength);
+    const filledBlocks =
+      totalCount > 0
+        ? Math.max(0, Math.round((foundCount / totalCount) * barLength))
+        : 0;
     const progressBar =
-      "█".repeat(filledBlocks) + "░".repeat(barLength - filledBlocks);
+      "█".repeat(filledBlocks) +
+      "░".repeat(Math.max(0, barLength - filledBlocks));
 
     // Check for achievements using correct method
     const allAchievements = this.achievementManager.getAllAchievements();
     const earnedAchievements = allAchievements.filter((a) => a.unlocked).length;
 
-    // Generate localized shareable text with translated title
+    // Generate letter grid with more spacing
+    const letters = this.gameState.letters || [];
+    const centerIndex = this.gameState.middleIndex;
+    const grid =
+      letters.length >= 9
+        ? `    ${letters[0]}   ${letters[1]}   ${letters[2]}
+    ${letters[3]}  [${letters[4]}]  ${letters[5]}
+    ${letters[6]}   ${letters[7]}   ${letters[8]}`
+        : "";
+
+    // Generate localized shareable text with translated title and grid
     const shareText = `🔤 ${this.translator.translate("title")} ${date}
+${grid}
+
 ${foundCount}/${totalCount} ${this.translator.translate("share.words")} (${percentage}%)
 ${progressBar}
 🎯 ${nineLetterFound}/${totalNineLetterWords} ${this.translator.translate("share.nine_letter_words")}
