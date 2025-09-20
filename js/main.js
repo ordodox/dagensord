@@ -93,48 +93,39 @@ class WordGameController {
     window.history.replaceState({}, "", url);
   }
 
-  setupInitialDate() {
-    const dateInput = document.getElementById("selectDate");
-    const today = new Date();
-    const todayStr = DateUtils.formatForInput(today);
+setupInitialDate() {
+  const dateInput = document.getElementById("selectDate");
+  const today = new Date();
+  const todayStr = DateUtils.formatForInput(today);
 
-    dateInput.max = todayStr;
+  dateInput.max = todayStr;
 
-    // Check for URL date parameter first
-    const urlDate = this.getDateFromURL();
-    let initialDate = today;
+  // Check for URL date parameter first
+  const urlDate = this.getDateFromURL();
+  let initialDate = today;
 
-    if (urlDate) {
-      // Use URL date
-      initialDate = new Date(urlDate);
-      dateInput.value = urlDate;
-    } else {
-      // No URL date - check for saved date in localStorage
-      const savedDate = localStorage.getItem("selectedDate");
-      if (savedDate) {
-        const parsedDate = new Date(savedDate);
-        if (!isNaN(parsedDate) && !DateUtils.isFuture(parsedDate)) {
-          initialDate = parsedDate;
-          dateInput.value = savedDate;
-        } else {
-          // Invalid saved date, fall back to today
-          dateInput.value = todayStr;
-          localStorage.removeItem("selectedDate"); // Clean up invalid date
-        }
-      } else {
-        // No saved date, use today
-        dateInput.value = todayStr;
-      }
-    }
-
-    this.gameState.setDate(initialDate);
-
-    // Save the selected date to localStorage
-    localStorage.setItem("selectedDate", DateUtils.formatForInput(initialDate));
-
-    // Update URL to reflect the current date
-    this.updateURL(DateUtils.formatForInput(initialDate));
+  if (urlDate) {
+    // Use URL date
+    initialDate = new Date(urlDate);
+    dateInput.value = urlDate;
+  } else {
+    // No URL date parameter - default to today's date
+    initialDate = today;
+    dateInput.value = todayStr;
+    
+    // Note: We're not using localStorage for initial date anymore
+    // The saved date is only used for other purposes, not page load
   }
+
+  this.gameState.setDate(initialDate);
+
+  // Save the selected date to localStorage (for other functionality)
+  localStorage.setItem("selectedDate", DateUtils.formatForInput(initialDate));
+
+  // Update URL to reflect the current date
+  this.updateURL(DateUtils.formatForInput(initialDate));
+}
+
 
   setupGame() {
     const baseLetters = GridGenerator.generateLetters(

@@ -53,12 +53,13 @@ class ShareManager {
     // Generate letter grid with more spacing
     const letters = this.gameState.letters || [];
     const centerIndex = this.gameState.middleIndex;
-    const grid =
-      letters.length >= 9
-        ? `    ${letters[0]}   ${letters[1]}   ${letters[2]}
-    ${letters[3]}  [${letters[4]}]  ${letters[5]}
-    ${letters[6]}   ${letters[7]}   ${letters[8]}`
-        : "";
+
+
+    const grid = letters.length >= 9
+  ? `• ${letters[0]} • ${letters[1]} • ${letters[2]} •
+• ${letters[3]} • ${letters[4]} • ${letters[5]} •
+• ${letters[6]} • ${letters[7]} • ${letters[8]} •`
+  : "";
 
     // Generate localized shareable text with translated title and grid
     const shareText = `🔤 ${this.translator.translate("title")} ${date}
